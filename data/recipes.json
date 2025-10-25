@@ -37,5 +37,33 @@
     "notes": "Chopped bitter sweet chocolate bar, refrigerate dough 24-48 hours, reduce white sugar 15 grams",
     "sourceUrl": "https://freshbeanbakery.com/small-batch-brown-butter-chocolate-chip-cookies/",
     "dateAdded": "2025-10-25"
+  },
+  {
+    "id": "best-fluffy-pancake-recipe",
+    "title": "Best Fluffy Pancake Recipe",
+    "description": "Get ready to make the most incredible fluffy pancakes yet with my step-by-step secrets that make this recipe foolproof!",
+    "prepTime": "5 min",
+    "cookTime": "10 min",
+    "servings": "6",
+    "image": "https://www.laurafuentes.com/wp-content/uploads/2018/09/Fluffy-pancakes-RC.jpg",
+    "tags": [],
+    "ingredients": [
+      "1 1/2 cups all-purpose flour",
+      "2 1/2 teaspoons baking powder (aluminum-free )",
+      "1/2 teaspoon salt",
+      "1 tablespoon sugar",
+      "1 1/4 cups milk (any)",
+      "1  egg",
+      "3 tablespoons butter (melted)",
+      "2 teaspoons vanilla extract (optional)"
+    ],
+    "instructions": [
+      "Make the batter:",
+      "Cook the pancakes:",
+      "Serve:"
+    ],
+    "notes": "",
+    "sourceUrl": "https://www.laurafuentes.com/fluffy-pancakes-recipe/",
+    "dateAdded": "2025-10-25"
   }
 ]
