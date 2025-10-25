@@ -316,30 +316,16 @@ header::after {
         radial-gradient(1px 1px at 70% 40%, white, transparent);
     background-size: 200% 200%;
     background-position: 0% 0%;
-    animation: twinkle 4s ease-in-out infinite;
+    animation: twinkle 8s linear infinite;
     opacity: 0.6;
 }
 
 @keyframes twinkle {
     0% {
-        opacity: 0.5;
-        background-position: 100% 0%;
-    }
-    25% {
-        opacity: 0.8;
-        background-position: 75% 0%;
-    }
-    50% {
-        opacity: 0.6;
-        background-position: 50% 0%;
-    }
-    75% {
-        opacity: 0.9;
-        background-position: 25% 0%;
+        background-position: 0% 0%;
     }
     100% {
-        opacity: 0.5;
-        background-position: 0% 0%;
+        background-position: 100% 0%;
     }
 }
 
