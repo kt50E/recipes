@@ -51,20 +51,20 @@ function displayRecipeDetail(recipe) {
             </div>
         ` : ''}
 
-        ${recipe.ingredients && recipe.ingredients.length > 0 ? `
+        ${recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 ? `
             <div class="ingredients">
                 <h2>Ingredients</h2>
                 <ul>
-                    ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                    ${recipe.ingredients.filter(i => i && i.trim()).map(ingredient => `<li>${ingredient}</li>`).join('')}
                 </ul>
             </div>
         ` : ''}
 
-        ${recipe.instructions && recipe.instructions.length > 0 ? `
+        ${recipe.instructions && Array.isArray(recipe.instructions) && recipe.instructions.length > 0 ? `
             <div class="instructions">
                 <h2>Instructions</h2>
                 <ol>
-                    ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
+                    ${recipe.instructions.filter(i => i && i.trim()).map(instruction => `<li>${instruction}</li>`).join('')}
                 </ol>
             </div>
         ` : ''}
