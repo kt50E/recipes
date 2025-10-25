@@ -77,6 +77,15 @@ function displayRecipeDetail(recipe) {
         ` : ''}
 
         ${recipe.sourceUrl ? `<p><a href="${recipe.sourceUrl}" target="_blank">Original Recipe Source</a></p>` : ''}
+
+        <div class="recipe-actions">
+            <a href="https://github.com/kt50E/recipes/actions/workflows/delete-recipe.yml"
+               target="_blank"
+               class="delete-recipe-btn"
+               onclick="return confirm('Are you sure you want to delete this recipe? You\\'ll need to enter the recipe ID: ${recipe.id}')">
+                Delete Recipe
+            </a>
+        </div>
     `;
 }
 

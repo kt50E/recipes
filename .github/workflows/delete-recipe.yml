@@ -1,0 +1,40 @@
+name: Delete Recipe
+
+on:
+  workflow_dispatch:
+    inputs:
+      recipe_id:
+        description: 'Recipe ID to delete'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  delete-recipe:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run recipe deletion script
+        run: |
+          cd scripts
+          python delete_recipe.py "${{ github.event.inputs.recipe_id }}"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/recipes.json
+          git diff --staged --quiet || git commit -m "Delete recipe: ${{ github.event.inputs.recipe_id }}
+
+          🤖 Automated recipe deletion via GitHub Actions"
+          git push
