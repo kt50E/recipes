@@ -179,20 +179,35 @@ h1, h2, h3, h4, h5, h6 {
    Header
    =================================== */
 header {
-    background: linear-gradient(135deg, #f8e8d8 0%, #fdf6ec 50%, #fff5e8 100%);
+    background: linear-gradient(180deg, #001a33 0%, #003d66 50%, #0066cc 100%);
     background-image:
-        radial-gradient(circle at 20% 30%, rgba(255, 183, 77, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 138, 101, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(139, 195, 74, 0.08) 0%, transparent 60%),
-        linear-gradient(135deg, #f8e8d8 0%, #fdf6ec 50%, #fff5e8 100%);
-    color: #5d4e37;
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent),
+        radial-gradient(1px 1px at 15% 90%, white, transparent),
+        linear-gradient(180deg, #001a33 0%, #003d66 50%, #0066cc 100%);
+    background-size: 200% 200%;
+    animation: starsShimmer 3s ease-in-out infinite;
+    color: white;
     padding: var(--space-3xl) 0;
     text-align: center;
     margin-bottom: var(--space-xl);
-    box-shadow: 0 4px 20px rgba(139, 69, 19, 0.08);
-    border-bottom: 3px solid #e8d5c0;
+    box-shadow: 0 4px 20px rgba(0, 100, 200, 0.3);
+    border-bottom: 3px solid #0066cc;
     position: relative;
     overflow: hidden;
+}
+
+@keyframes starsShimmer {
+    0%, 100% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
 }
 
 /* Nyan Cat Rainbow Trail Animation */
@@ -227,16 +242,16 @@ header::after {
     position: absolute;
     top: 50%;
     left: -150px;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 60px;
     transform: translateY(-50%);
-    background-image: url('https://www.citypng.com/public/uploads/preview/cute-rainbow-nyan-cat-hd-transparent-background-11639658808e90sltbkfx.png');
+    background-image: url('https://i.pinimg.com/originals/6d/10/d6/6d10d60fc9e663304df3bcc4d17e20a1.gif');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     animation: nyanCatFly 10s linear infinite, nyanCatBounce 0.5s ease-in-out infinite;
     z-index: 2;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+    filter: drop-shadow(0 0 15px rgba(255, 100, 255, 0.8)) brightness(1.1);
 }
 
 @keyframes nyanCatFly {
@@ -260,14 +275,15 @@ header::after {
 header h1 {
     font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
     margin-bottom: var(--space-md);
-    color: #5d4e37;
+    color: #FFD700;
     font-weight: normal;
     font-family: 'Fredoka One', cursive;
     letter-spacing: 0.08em;
     text-shadow:
-        2px 2px 0px rgba(255, 183, 77, 0.3),
-        4px 4px 0px rgba(255, 138, 101, 0.2),
-        0 0 20px rgba(255, 215, 0, 0.2);
+        2px 2px 0px rgba(255, 0, 255, 0.5),
+        4px 4px 0px rgba(0, 255, 255, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.8),
+        0 0 50px rgba(255, 100, 255, 0.5);
     text-transform: uppercase;
     position: relative;
     z-index: 3;
@@ -285,28 +301,30 @@ header h1 {
 
 .tagline {
     font-size: var(--font-size-lg);
-    color: #8b6f47;
+    color: #E0E0E0;
     font-weight: var(--font-weight-normal);
     font-style: normal;
     font-family: 'Chewy', cursive;
     line-height: var(--line-height-relaxed);
     position: relative;
     z-index: 3;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .jump-to-recipe {
     display: inline-block;
-    background: linear-gradient(135deg, rgba(107, 142, 35, 0.2) 0%, rgba(139, 195, 74, 0.2) 100%);
-    color: #4a6b1a;
+    background: linear-gradient(135deg, rgba(255, 100, 255, 0.4) 0%, rgba(0, 255, 255, 0.4) 100%);
+    color: #FFFF00;
     padding: 0.2rem 0.7rem;
     border-radius: 12px;
     font-style: normal;
     font-weight: var(--font-weight-bold);
     font-family: 'Fredoka One', cursive;
-    border: 2px solid rgba(107, 142, 35, 0.4);
+    border: 2px solid rgba(255, 100, 255, 0.6);
     box-shadow:
-        0 2px 4px rgba(107, 142, 35, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        0 2px 8px rgba(255, 100, 255, 0.5),
+        0 0 20px rgba(0, 255, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
     transition: all var(--transition-base);
     animation: badgePulse 3s ease-in-out infinite;
 }
@@ -963,8 +981,8 @@ footer a:hover {
     }
 
     header::after {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 40px;
     }
 
     .add-recipe-banner {
