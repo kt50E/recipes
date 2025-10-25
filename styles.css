@@ -344,7 +344,7 @@ header h1 {
     outline-offset: 2px;
 }
 
-.instructions {
+.add-recipe-content .instructions {
     display: none;
 }
 
