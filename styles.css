@@ -217,6 +217,7 @@ footer {
     padding: 0.5rem 0;
     padding-left: 1.5rem;
     position: relative;
+    color: #333;
 }
 
 .ingredients li:before {
@@ -233,6 +234,7 @@ footer {
 
 .instructions li {
     padding: 0.5rem 0;
+    color: #333;
 }
 
 .back-link {
