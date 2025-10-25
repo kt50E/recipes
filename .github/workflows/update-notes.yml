@@ -1,0 +1,44 @@
+name: Update Recipe Notes
+
+on:
+  workflow_dispatch:
+    inputs:
+      recipe_id:
+        description: 'Recipe ID to update'
+        required: true
+        type: string
+      notes:
+        description: 'Your personal notes for this recipe'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  update-notes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Update recipe notes
+        run: |
+          cd scripts
+          python update_notes.py "${{ github.event.inputs.recipe_id }}" "${{ github.event.inputs.notes }}"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/recipes.json
+          git diff --staged --quiet || git commit -m "Update notes for: ${{ github.event.inputs.recipe_id }}
+
+          🤖 Automated notes update via GitHub Actions"
+          git push

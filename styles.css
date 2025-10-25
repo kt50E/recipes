@@ -248,12 +248,62 @@ footer {
     text-decoration: underline;
 }
 
+/* My Notes Section */
+.my-notes-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: #fff9e6;
+    border-left: 4px solid #f39c12;
+    border-radius: 4px;
+}
+
+.my-notes-section h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.notes-content {
+    color: #555;
+    line-height: 1.8;
+}
+
+.notes-content p {
+    margin: 0.5rem 0;
+    white-space: pre-wrap;
+}
+
+.no-notes {
+    color: #999;
+    font-style: italic;
+}
+
 /* Recipe Actions */
 .recipe-actions {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid #ecf0f1;
     text-align: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.edit-notes-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #f39c12;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.edit-notes-btn:hover {
+    background-color: #d68910;
+    transform: translateY(-2px);
 }
 
 .delete-recipe-btn {

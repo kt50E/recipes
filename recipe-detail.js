@@ -69,16 +69,26 @@ function displayRecipeDetail(recipe) {
             </div>
         ` : ''}
 
-        ${recipe.notes ? `
-            <div class="instructions">
-                <h2>Notes</h2>
-                <p>${recipe.notes}</p>
-            </div>
-        ` : ''}
-
         ${recipe.sourceUrl ? `<p><a href="${recipe.sourceUrl}" target="_blank">Original Recipe Source</a></p>` : ''}
 
+        <div class="my-notes-section">
+            <h2>My Notes</h2>
+            ${recipe.notes ? `
+                <div class="notes-content">
+                    <p>${recipe.notes}</p>
+                </div>
+            ` : `
+                <p class="no-notes">No notes added yet. Click below to add your personal notes!</p>
+            `}
+        </div>
+
         <div class="recipe-actions">
+            <a href="https://github.com/kt50E/recipes/actions/workflows/update-notes.yml"
+               target="_blank"
+               class="edit-notes-btn"
+               onclick="return confirm('You\\'ll need to enter:\\n\\nRecipe ID: ${recipe.id}\\n\\nThen paste your notes in the next field.')">
+                ${recipe.notes ? 'Edit' : 'Add'} Notes
+            </a>
             <a href="https://github.com/kt50E/recipes/actions/workflows/delete-recipe.yml"
                target="_blank"
                class="delete-recipe-btn"
