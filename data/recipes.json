@@ -69,5 +69,38 @@
     "notes": "",
     "sourceUrl": "https://www.laurafuentes.com/fluffy-pancakes-recipe/#recipe",
     "dateAdded": "2025-10-25"
+  },
+  {
+    "id": "nikujaga-japanese-beef-stew",
+    "title": "Nikujaga (Japanese Beef Stew)",
+    "description": "",
+    "prepTime": "10 min",
+    "cookTime": "20 min",
+    "servings": "4",
+    "image": "https://www.closetcooking.com/wp-content/uploads/2008/10/Nikujaga-500.jpg",
+    "tags": [],
+    "ingredients": [
+      "1 tablespoon oil",
+      "1 pound beef (thinly sliced or cut into bite sized pieces)",
+      "1 onion (sliced)",
+      "2 cups potatoes (or pumpkin cut into bite sized pieces)",
+      "1 carrot (cut into bite sized pieces)",
+      "2 cupsdashi(or water or beef stock)",
+      "3 tablespoons soy",
+      "3 tablespoon sugar",
+      "2 tablespoon sake",
+      "1 tablespoon mirin",
+      "1 green onion (sliced)",
+      "shichimi togarashi to taste (optional)"
+    ],
+    "instructions": [
+      "Heat the oil in a pan.",
+      "Add the beef and brown on all sides.",
+      "Add the onion, squash and carrot and saute for 5 minutes.",
+      "Add the dashi, soy, sugar, sake and mirin, cover and simmer until the vegetables are tender."
+    ],
+    "notes": "",
+    "sourceUrl": "https://www.closetcooking.com/nikujaga-japanese-beef-stew/",
+    "dateAdded": "2025-10-25"
   }
 ]
