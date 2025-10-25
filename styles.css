@@ -179,35 +179,15 @@ h1, h2, h3, h4, h5, h6 {
    Header
    =================================== */
 header {
-    background: linear-gradient(180deg, #001a33 0%, #003d66 50%, #0066cc 100%);
-    background-image:
-        radial-gradient(2px 2px at 20% 30%, white, transparent),
-        radial-gradient(2px 2px at 60% 70%, white, transparent),
-        radial-gradient(1px 1px at 50% 50%, white, transparent),
-        radial-gradient(1px 1px at 80% 10%, white, transparent),
-        radial-gradient(2px 2px at 90% 60%, white, transparent),
-        radial-gradient(1px 1px at 33% 80%, white, transparent),
-        radial-gradient(1px 1px at 15% 90%, white, transparent),
-        linear-gradient(180deg, #001a33 0%, #003d66 50%, #0066cc 100%);
-    background-size: 200% 200%;
-    animation: starsShimmer 3s ease-in-out infinite;
-    color: white;
+    background: #ffffff;
+    color: #5d4e37;
     padding: var(--space-3xl) 0;
     text-align: center;
     margin-bottom: var(--space-xl);
-    box-shadow: 0 4px 20px rgba(0, 100, 200, 0.3);
-    border-bottom: 3px solid #0066cc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-bottom: 3px solid #e8d5c0;
     position: relative;
     overflow: hidden;
-}
-
-@keyframes starsShimmer {
-    0%, 100% {
-        background-position: 0% 0%;
-    }
-    50% {
-        background-position: 100% 100%;
-    }
 }
 
 /* Nyan Cat Rainbow Trail Animation */
@@ -278,15 +258,13 @@ header::after {
 header h1 {
     font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
     margin-bottom: var(--space-md);
-    color: #FFD700;
+    color: #5d4e37;
     font-weight: normal;
     font-family: 'Fredoka One', cursive;
     letter-spacing: 0.08em;
     text-shadow:
-        2px 2px 0px rgba(255, 0, 255, 0.5),
-        4px 4px 0px rgba(0, 255, 255, 0.4),
-        0 0 30px rgba(255, 215, 0, 0.8),
-        0 0 50px rgba(255, 100, 255, 0.5);
+        2px 2px 0px rgba(255, 183, 77, 0.3),
+        4px 4px 0px rgba(255, 138, 101, 0.2);
     text-transform: uppercase;
     position: relative;
     z-index: 3;
@@ -304,30 +282,28 @@ header h1 {
 
 .tagline {
     font-size: var(--font-size-lg);
-    color: #E0E0E0;
+    color: #8b6f47;
     font-weight: var(--font-weight-normal);
     font-style: normal;
     font-family: 'Chewy', cursive;
     line-height: var(--line-height-relaxed);
     position: relative;
     z-index: 3;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .jump-to-recipe {
     display: inline-block;
-    background: linear-gradient(135deg, rgba(255, 100, 255, 0.4) 0%, rgba(0, 255, 255, 0.4) 100%);
-    color: #FFFF00;
+    background: linear-gradient(135deg, rgba(107, 142, 35, 0.2) 0%, rgba(139, 195, 74, 0.2) 100%);
+    color: #4a6b1a;
     padding: 0.2rem 0.7rem;
     border-radius: 12px;
     font-style: normal;
     font-weight: var(--font-weight-bold);
     font-family: 'Fredoka One', cursive;
-    border: 2px solid rgba(255, 100, 255, 0.6);
+    border: 2px solid rgba(107, 142, 35, 0.4);
     box-shadow:
-        0 2px 8px rgba(255, 100, 255, 0.5),
-        0 0 20px rgba(0, 255, 255, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        0 2px 4px rgba(107, 142, 35, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transition: all var(--transition-base);
     animation: badgePulse 3s ease-in-out infinite;
 }
