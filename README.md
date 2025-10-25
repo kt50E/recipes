@@ -6,7 +6,8 @@ A personal recipe website to save and organize your favorite recipes. Includes a
 
 - Clean, minimalist recipe display
 - Responsive design that works on all devices
-- Recipe ingestion script to automatically extract recipes from URLs
+- **One-click recipe submission via GitHub Actions** - add recipes directly from the website!
+- Automatic recipe scraping from 300+ recipe sites
 - JSON-based storage (easy to edit and backup)
 - Hosted on GitHub Pages
 
@@ -18,7 +19,26 @@ Simply open `index.html` in your browser, or visit the GitHub Pages URL once dep
 
 ### Adding Recipes
 
-#### Method 1: Using the Recipe Ingestion Script
+#### Method 1: Via Website (Automated - Recommended!)
+
+1. Visit your live recipe website
+2. Click the "Add Recipe from URL" button at the top
+3. You'll be redirected to GitHub Actions
+4. Click the "Run workflow" button
+5. Paste your recipe URL and click "Run workflow"
+6. GitHub will automatically scrape the recipe, add it to your collection, and update your live site!
+
+The script will automatically extract:
+- Recipe title
+- Description
+- Prep time and cook time
+- Servings
+- Ingredients list
+- Step-by-step instructions
+- Recipe image
+- Source URL
+
+#### Method 2: Using the Local Script
 
 1. Install Python dependencies:
    ```bash
@@ -31,17 +51,14 @@ Simply open `index.html` in your browser, or visit the GitHub Pages URL once dep
    python ingest_recipe.py "https://www.example.com/recipe-url"
    ```
 
-The script will automatically extract:
-- Recipe title
-- Description
-- Prep time and cook time
-- Servings
-- Ingredients list
-- Step-by-step instructions
-- Recipe image
-- Source URL
+3. Push your changes:
+   ```bash
+   git add data/recipes.json
+   git commit -m "Add new recipe"
+   git push
+   ```
 
-#### Method 2: Manual Entry
+#### Method 3: Manual Entry
 
 Edit `data/recipes.json` and add your recipe following this format:
 
@@ -83,6 +100,9 @@ The ingestion script supports recipes from over 300+ websites including:
 
 ```
 .
+├── .github/
+│   └── workflows/
+│       └── add-recipe.yml  # GitHub Actions workflow for automated recipe submission
 ├── index.html              # Main page listing all recipes
 ├── recipe.html             # Individual recipe detail page
 ├── styles.css              # Website styling
@@ -107,7 +127,9 @@ The ingestion script supports recipes from over 300+ websites including:
 
 - HTML5, CSS3, JavaScript (Vanilla)
 - Python 3 with recipe-scrapers library
+- GitHub Actions for automated workflows
 - JSON for data storage
+- GitHub Pages for hosting
 
 ## License
 
