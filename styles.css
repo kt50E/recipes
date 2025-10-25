@@ -242,16 +242,19 @@ header::after {
     position: absolute;
     top: 50%;
     left: -150px;
-    width: 100px;
-    height: 60px;
+    width: 120px;
+    height: 80px;
     transform: translateY(-50%);
-    background-image: url('https://i.pinimg.com/originals/6d/10/d6/6d10d60fc9e663304df3bcc4d17e20a1.gif');
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXFvc3FraWNyZHZobWZ5N3dneXNwcjN6ZWZrM211bTdkZzdkNTRhdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/22kxQ12cxyEww/giphy.gif');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    animation: nyanCatFly 10s linear infinite, nyanCatBounce 0.5s ease-in-out infinite;
+    animation: nyanCatFly 10s linear infinite;
     z-index: 2;
-    filter: drop-shadow(0 0 15px rgba(255, 100, 255, 0.8)) brightness(1.1);
+    filter: drop-shadow(0 0 15px rgba(255, 100, 255, 0.8)) brightness(1.2);
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
 }
 
 @keyframes nyanCatFly {
@@ -981,8 +984,8 @@ footer a:hover {
     }
 
     header::after {
-        width: 60px;
-        height: 40px;
+        width: 80px;
+        height: 55px;
     }
 
     .add-recipe-banner {
