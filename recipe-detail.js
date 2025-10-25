@@ -97,21 +97,35 @@ function scaleIngredient(ingredient, multiplier) {
     if (multiplier === 1) return ingredient;
 
     // Try to find and scale any numbers in the ingredient
-    const numberPattern = /(\d+\s+\d+\/\d+|\d+\/\d+|\d+\.?\d*)/g;
+    // Order matters: try complex patterns first
+    const numberPattern = /(\d+\s+\d+\/\d+|\d+\/\d+|\d+\.\d+|\d+)/g;
 
-    return ingredient.replace(numberPattern, (match) => {
+    console.log(`Scaling ingredient: "${ingredient}" by ${multiplier}`);
+
+    const result = ingredient.replace(numberPattern, (match) => {
+        console.log(`  Found match: "${match}"`);
+
         const value = parseFraction(match);
+        console.log(`  Parsed value: ${value}`);
+
         if (value === null) return match;
 
         const scaled = value * multiplier;
+        console.log(`  Scaled value: ${scaled}`);
 
         // Format the result nicely
         if (scaled < 0.1) {
             return 'pinch of';
         }
 
-        return decimalToFraction(scaled);
+        const formatted = decimalToFraction(scaled);
+        console.log(`  Formatted result: "${formatted}"`);
+
+        return formatted;
     });
+
+    console.log(`  Final result: "${result}"`);
+    return result;
 }
 
 // Load and display recipe details
