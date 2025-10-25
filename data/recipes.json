@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sample-chocolate-chip-cookies",
+    "title": "Classic Chocolate Chip Cookies",
+    "description": "Soft and chewy chocolate chip cookies with a perfect balance of buttery dough and melty chocolate chips.",
+    "prepTime": "15 min",
+    "cookTime": "12 min",
+    "servings": "24 cookies",
+    "image": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600",
+    "tags": ["dessert", "cookies", "chocolate"],
+    "ingredients": [
+      "2 1/4 cups all-purpose flour",
+      "1 tsp baking soda",
+      "1 tsp salt",
+      "1 cup (2 sticks) butter, softened",
+      "3/4 cup granulated sugar",
+      "3/4 cup packed brown sugar",
+      "2 large eggs",
+      "2 tsp vanilla extract",
+      "2 cups chocolate chips"
+    ],
+    "instructions": [
+      "Preheat oven to 375°F (190°C).",
+      "In a small bowl, combine flour, baking soda, and salt. Set aside.",
+      "In a large bowl, beat butter, granulated sugar, and brown sugar until creamy.",
+      "Add eggs and vanilla extract to butter mixture and beat well.",
+      "Gradually blend in the flour mixture.",
+      "Stir in chocolate chips.",
+      "Drop rounded tablespoons of dough onto ungreased cookie sheets.",
+      "Bake for 9-11 minutes or until golden brown.",
+      "Cool on baking sheet for 2 minutes, then remove to wire rack."
+    ],
+    "notes": "For softer cookies, slightly underbake them. Store in an airtight container for up to 5 days.",
+    "sourceUrl": "",
+    "dateAdded": "2025-10-25"
+  }
+]
