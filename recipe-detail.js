@@ -30,6 +30,90 @@ function parseServings(servingsStr) {
     return match ? parseInt(match[0]) : null;
 }
 
+// Parse fractions and mixed numbers from strings
+function parseFraction(str) {
+    // Handle mixed numbers like "1 1/2" or "1½"
+    const mixedMatch = str.match(/(\d+)\s+(\d+)\/(\d+)/);
+    if (mixedMatch) {
+        return parseInt(mixedMatch[1]) + parseInt(mixedMatch[2]) / parseInt(mixedMatch[3]);
+    }
+
+    // Handle fractions like "1/2"
+    const fractionMatch = str.match(/(\d+)\/(\d+)/);
+    if (fractionMatch) {
+        return parseInt(fractionMatch[1]) / parseInt(fractionMatch[2]);
+    }
+
+    // Handle decimals like "1.5"
+    const decimalMatch = str.match(/\d+\.?\d*/);
+    if (decimalMatch) {
+        return parseFloat(decimalMatch[0]);
+    }
+
+    return null;
+}
+
+// Convert decimal to fraction for display
+function decimalToFraction(decimal) {
+    if (decimal === Math.floor(decimal)) {
+        return decimal.toString();
+    }
+
+    const tolerance = 1.0E-6;
+    let numerator = 1;
+    let denominator = 1;
+    let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
+    let b = decimal;
+
+    do {
+        let a = Math.floor(b);
+        let aux = h1;
+        h1 = a * h1 + h2;
+        h2 = aux;
+        aux = k1;
+        k1 = a * k1 + k2;
+        k2 = aux;
+        b = 1 / (b - a);
+    } while (Math.abs(decimal - h1 / k1) > decimal * tolerance);
+
+    numerator = h1;
+    denominator = k1;
+
+    // Check if it's a mixed number
+    if (numerator > denominator) {
+        const whole = Math.floor(numerator / denominator);
+        const remainder = numerator % denominator;
+        if (remainder === 0) {
+            return whole.toString();
+        }
+        return `${whole} ${remainder}/${denominator}`;
+    }
+
+    return `${numerator}/${denominator}`;
+}
+
+// Scale an ingredient string by a multiplier
+function scaleIngredient(ingredient, multiplier) {
+    if (multiplier === 1) return ingredient;
+
+    // Try to find and scale any numbers in the ingredient
+    const numberPattern = /(\d+\s+\d+\/\d+|\d+\/\d+|\d+\.?\d*)/g;
+
+    return ingredient.replace(numberPattern, (match) => {
+        const value = parseFraction(match);
+        if (value === null) return match;
+
+        const scaled = value * multiplier;
+
+        // Format the result nicely
+        if (scaled < 0.1) {
+            return 'pinch of';
+        }
+
+        return decimalToFraction(scaled);
+    });
+}
+
 // Load and display recipe details
 async function loadRecipeDetail() {
     const recipeId = getRecipeId();
@@ -127,10 +211,13 @@ function updateMetaTags(recipe) {
     }
 }
 
-// Create serving calculator
-function createServingCalculator(recipe) {
+// Create serving calculator with scaling functionality
+function createServingCalculator(recipe, ingredientsList) {
     const originalServings = parseServings(recipe.servings);
     if (!originalServings) return null;
+
+    // Store original ingredients for resetting
+    const originalIngredients = [...recipe.ingredients];
 
     const calculator = document.createElement('div');
     calculator.className = 'serving-calculator';
@@ -147,19 +234,56 @@ function createServingCalculator(recipe) {
     input.value = originalServings;
     input.setAttribute('aria-label', 'Number of servings');
 
+    const scaleBtn = document.createElement('button');
+    scaleBtn.type = 'button';
+    scaleBtn.textContent = 'Scale Ingredients';
+    scaleBtn.setAttribute('aria-label', 'Scale ingredients to new serving size');
+
     const resetBtn = document.createElement('button');
     resetBtn.type = 'button';
     resetBtn.textContent = 'Reset';
     resetBtn.setAttribute('aria-label', 'Reset to original serving size');
 
-    // Note: Full ingredient scaling would require parsing amounts
-    // This is a simplified version showing the UI
+    // Scale button functionality
+    scaleBtn.addEventListener('click', () => {
+        const newServings = parseInt(input.value);
+        if (!newServings || newServings < 1) {
+            alert('Please enter a valid number of servings (1 or more)');
+            return;
+        }
+
+        const multiplier = newServings / originalServings;
+
+        // Clear and rebuild ingredients list
+        ingredientsList.innerHTML = '';
+
+        originalIngredients
+            .filter(ingredient => ingredient && ingredient.trim())
+            .forEach(ingredient => {
+                const li = document.createElement('li');
+                li.textContent = scaleIngredient(ingredient, multiplier);
+                ingredientsList.appendChild(li);
+            });
+    });
+
+    // Reset button functionality
     resetBtn.addEventListener('click', () => {
         input.value = originalServings;
+
+        // Restore original ingredients
+        ingredientsList.innerHTML = '';
+        originalIngredients
+            .filter(ingredient => ingredient && ingredient.trim())
+            .forEach(ingredient => {
+                const li = document.createElement('li');
+                li.textContent = ingredient;
+                ingredientsList.appendChild(li);
+            });
     });
 
     calculator.appendChild(label);
     calculator.appendChild(input);
+    calculator.appendChild(scaleBtn);
     calculator.appendChild(resetBtn);
 
     return calculator;
@@ -248,12 +372,7 @@ function displayRecipeDetail(recipe) {
         ingredientsHeading.textContent = 'Ingredients';
         ingredientsSection.appendChild(ingredientsHeading);
 
-        // Add serving calculator
-        const calculator = createServingCalculator(recipe);
-        if (calculator) {
-            ingredientsSection.appendChild(calculator);
-        }
-
+        // Create ingredients list first
         const ingredientsList = document.createElement('ul');
         recipe.ingredients
             .filter(ingredient => ingredient && ingredient.trim())
@@ -262,6 +381,12 @@ function displayRecipeDetail(recipe) {
                 li.textContent = ingredient;
                 ingredientsList.appendChild(li);
             });
+
+        // Add serving calculator with reference to ingredients list
+        const calculator = createServingCalculator(recipe, ingredientsList);
+        if (calculator) {
+            ingredientsSection.appendChild(calculator);
+        }
 
         ingredientsSection.appendChild(ingredientsList);
         detailContainer.appendChild(ingredientsSection);

@@ -641,43 +641,95 @@ header h1 {
 /* Serving size calculator */
 .serving-calculator {
     background: var(--color-bg-tertiary);
-    padding: var(--space-md);
+    padding: var(--space-lg);
     border-radius: var(--border-radius-md);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
     display: flex;
     align-items: center;
     gap: var(--space-md);
     flex-wrap: wrap;
+    border: 2px solid var(--color-border);
 }
 
 .serving-calculator label {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
 }
 
 .serving-calculator input {
     width: 80px;
-    padding: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
     border: 2px solid var(--color-border);
     border-radius: var(--border-radius-sm);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
     background: var(--color-bg-primary);
     color: var(--color-text-primary);
+    text-align: center;
+    transition: border-color var(--transition-base);
+}
+
+.serving-calculator input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
 .serving-calculator button {
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-sm) var(--space-lg);
     background: var(--color-accent);
     color: white;
     border: none;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
-    font-weight: var(--font-weight-medium);
-    transition: background-color var(--transition-base);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    transition: all var(--transition-base);
+    white-space: nowrap;
 }
 
 .serving-calculator button:hover {
     background: var(--color-accent-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.serving-calculator button:active {
+    transform: translateY(0);
+}
+
+.serving-calculator button:focus {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.serving-calculator button:last-of-type {
+    background: var(--color-text-tertiary);
+}
+
+.serving-calculator button:last-of-type:hover {
+    background: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    .serving-calculator {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-sm);
+    }
+
+    .serving-calculator label {
+        text-align: center;
+    }
+
+    .serving-calculator input {
+        width: 100%;
+    }
+
+    .serving-calculator button {
+        width: 100%;
+    }
 }
 
 /* My Notes Section */
