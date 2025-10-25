@@ -95,16 +95,45 @@ def scrape_with_schema_org(url):
                     instructions_raw = data.get('recipeInstructions', [])
                     instructions = []
 
+                    def extract_instruction_text(inst):
+                        """Recursively extract instruction text from various schema.org formats."""
+                        if isinstance(inst, str):
+                            return [inst]
+                        elif isinstance(inst, dict):
+                            inst_type = inst.get('@type', '')
+
+                            # Handle HowToSection (contains multiple steps)
+                            if inst_type == 'HowToSection':
+                                section_steps = []
+                                # Get section name if present
+                                section_name = inst.get('name', '')
+                                if section_name:
+                                    section_steps.append(f"{section_name}:")
+
+                                # Extract steps within the section
+                                items = inst.get('itemListElement', [])
+                                for item in items:
+                                    section_steps.extend(extract_instruction_text(item))
+                                return section_steps
+
+                            # Handle HowToStep
+                            elif inst_type == 'HowToStep':
+                                text = inst.get('text', '')
+                                if text:
+                                    return [text]
+
+                            # Fallback: try to get text or name field
+                            text = inst.get('text', inst.get('name', ''))
+                            if text:
+                                return [text]
+
+                        return []
+
                     if isinstance(instructions_raw, str):
                         instructions = [instructions_raw]
                     elif isinstance(instructions_raw, list):
                         for inst in instructions_raw:
-                            if isinstance(inst, str):
-                                instructions.append(inst)
-                            elif isinstance(inst, dict):
-                                text = inst.get('text', inst.get('name', ''))
-                                if text:
-                                    instructions.append(text)
+                            instructions.extend(extract_instruction_text(inst))
 
                     # Extract servings
                     servings = ""
