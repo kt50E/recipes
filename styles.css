@@ -192,55 +192,134 @@ header {
     box-shadow: 0 4px 20px rgba(139, 69, 19, 0.08);
     border-bottom: 3px solid #e8d5c0;
     position: relative;
+    overflow: hidden;
 }
 
-header::after {
+/* Nyan Cat Rainbow Trail Animation */
+header::before {
     content: '';
     position: absolute;
-    bottom: -3px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg,
+    top: 35%;
+    left: -300px;
+    width: 300px;
+    height: 40px;
+    background: linear-gradient(
+        to right,
         transparent 0%,
-        rgba(255, 138, 101, 0.3) 20%,
-        rgba(255, 183, 77, 0.4) 50%,
-        rgba(139, 195, 74, 0.3) 80%,
-        transparent 100%);
+        rgba(255, 0, 0, 0.6) 10%,
+        rgba(255, 154, 0, 0.6) 20%,
+        rgba(255, 255, 0, 0.6) 30%,
+        rgba(0, 255, 0, 0.6) 40%,
+        rgba(0, 123, 255, 0.6) 50%,
+        rgba(75, 0, 130, 0.6) 60%,
+        rgba(148, 0, 211, 0.6) 70%,
+        transparent 80%
+    );
+    border-radius: 10px;
+    animation: nyanCatFly 8s linear infinite;
+    z-index: 1;
+    box-shadow:
+        0 0 20px rgba(255, 0, 255, 0.4),
+        0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+/* Stars/Sparkles that trail behind */
+header::after {
+    content: '✦ ★ ✦ ⭐ ✦';
+    position: absolute;
+    top: 35%;
+    left: -200px;
+    font-size: 1.2rem;
+    color: rgba(255, 215, 0, 0.8);
+    animation: nyanCatFly 8s linear infinite;
+    animation-delay: 0.3s;
+    z-index: 2;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.8),
+        0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes nyanCatFly {
+    0% {
+        left: -300px;
+        transform: translateY(0px);
+    }
+    25% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(0px);
+    }
+    75% {
+        transform: translateY(10px);
+    }
+    100% {
+        left: calc(100% + 100px);
+        transform: translateY(0px);
+    }
 }
 
 header h1 {
     font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
     margin-bottom: var(--space-md);
     color: #5d4e37;
-    font-weight: var(--font-weight-bold);
-    font-family: Georgia, 'Times New Roman', serif;
-    letter-spacing: 0.05em;
-    text-shadow: 0 2px 4px rgba(93, 78, 55, 0.1);
+    font-weight: normal;
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: 0.08em;
+    text-shadow:
+        2px 2px 0px rgba(255, 183, 77, 0.3),
+        4px 4px 0px rgba(255, 138, 101, 0.2),
+        0 0 20px rgba(255, 215, 0, 0.2);
     text-transform: uppercase;
+    position: relative;
+    z-index: 3;
+    animation: headerBounce 2s ease-in-out infinite;
+}
+
+@keyframes headerBounce {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
 }
 
 .tagline {
     font-size: var(--font-size-lg);
     color: #8b6f47;
     font-weight: var(--font-weight-normal);
-    font-style: italic;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-style: normal;
+    font-family: 'Chewy', cursive;
     line-height: var(--line-height-relaxed);
+    position: relative;
+    z-index: 3;
 }
 
 .jump-to-recipe {
     display: inline-block;
-    background: linear-gradient(135deg, rgba(107, 142, 35, 0.15) 0%, rgba(139, 195, 74, 0.15) 100%);
-    color: #5a7a1e;
-    padding: 0.15rem 0.6rem;
-    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, rgba(107, 142, 35, 0.2) 0%, rgba(139, 195, 74, 0.2) 100%);
+    color: #4a6b1a;
+    padding: 0.2rem 0.7rem;
+    border-radius: 12px;
     font-style: normal;
-    font-weight: var(--font-weight-semibold);
-    font-family: var(--font-family-base);
-    border: 1px solid rgba(107, 142, 35, 0.2);
-    box-shadow: 0 1px 3px rgba(107, 142, 35, 0.1);
+    font-weight: var(--font-weight-bold);
+    font-family: 'Fredoka One', cursive;
+    border: 2px solid rgba(107, 142, 35, 0.4);
+    box-shadow:
+        0 2px 4px rgba(107, 142, 35, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transition: all var(--transition-base);
+    animation: badgePulse 3s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 /* ===================================
