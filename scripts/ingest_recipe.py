@@ -13,9 +13,11 @@ import re
 
 try:
     from recipe_scrapers import scrape_me
-except ImportError:
-    print("Error: recipe_scrapers library not found.")
-    print("Please install it with: pip install recipe-scrapers")
+    import requests
+    from bs4 import BeautifulSoup
+except ImportError as e:
+    print(f"Error: Required library not found: {e}")
+    print("Please install dependencies with: pip install recipe-scrapers requests beautifulsoup4")
     sys.exit(1)
 
 
@@ -29,9 +31,124 @@ def generate_recipe_id(title):
     return recipe_id.strip('-')
 
 
+def parse_duration(duration_str):
+    """Parse ISO 8601 duration string to minutes."""
+    if not duration_str:
+        return ""
+
+    # Match PT#H#M or PT#M format
+    match = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?', duration_str)
+    if match:
+        hours = int(match.group(1) or 0)
+        minutes = int(match.group(2) or 0)
+        total_minutes = hours * 60 + minutes
+        if total_minutes > 0:
+            if hours > 0 and minutes > 0:
+                return f"{hours}h {minutes}min"
+            elif hours > 0:
+                return f"{hours}h"
+            else:
+                return f"{minutes} min"
+    return ""
+
+
+def scrape_with_schema_org(url):
+    """
+    Fallback scraper using schema.org JSON-LD structured data.
+    Most recipe websites include this for SEO purposes.
+    """
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Find JSON-LD script tags
+        scripts = soup.find_all('script', type='application/ld+json')
+
+        for script in scripts:
+            try:
+                data = json.loads(script.string)
+
+                # Handle @graph format
+                if isinstance(data, dict) and '@graph' in data:
+                    data = data['@graph']
+
+                # Handle array format
+                if isinstance(data, list):
+                    # Find Recipe type
+                    recipe = next((item for item in data if item.get('@type') == 'Recipe'), None)
+                    if recipe:
+                        data = recipe
+
+                # Check if this is a Recipe
+                if isinstance(data, dict) and data.get('@type') == 'Recipe':
+                    # Extract ingredients
+                    ingredients = data.get('recipeIngredient', [])
+                    if isinstance(ingredients, str):
+                        ingredients = [ingredients]
+
+                    # Extract instructions
+                    instructions_raw = data.get('recipeInstructions', [])
+                    instructions = []
+
+                    if isinstance(instructions_raw, str):
+                        instructions = [instructions_raw]
+                    elif isinstance(instructions_raw, list):
+                        for inst in instructions_raw:
+                            if isinstance(inst, str):
+                                instructions.append(inst)
+                            elif isinstance(inst, dict):
+                                text = inst.get('text', inst.get('name', ''))
+                                if text:
+                                    instructions.append(text)
+
+                    # Extract servings
+                    servings = ""
+                    if 'recipeYield' in data:
+                        yield_val = data['recipeYield']
+                        if isinstance(yield_val, list):
+                            servings = str(yield_val[0]) if yield_val else ""
+                        else:
+                            servings = str(yield_val)
+
+                    recipe_data = {
+                        "id": generate_recipe_id(data.get('name', 'untitled')),
+                        "title": data.get('name', 'Untitled Recipe'),
+                        "description": data.get('description', ''),
+                        "prepTime": parse_duration(data.get('prepTime', '')),
+                        "cookTime": parse_duration(data.get('cookTime', '')),
+                        "servings": servings,
+                        "image": data.get('image', {}).get('url', '') if isinstance(data.get('image'), dict) else (data.get('image', [''])[0] if isinstance(data.get('image'), list) else data.get('image', '')),
+                        "tags": [],
+                        "ingredients": ingredients,
+                        "instructions": instructions,
+                        "notes": "",
+                        "sourceUrl": url,
+                        "dateAdded": date.today().isoformat()
+                    }
+
+                    return recipe_data
+
+            except (json.JSONDecodeError, AttributeError, KeyError) as e:
+                continue
+
+        return None
+
+    except Exception as e:
+        print(f"Schema.org fallback error: {e}")
+        return None
+
+
 def scrape_recipe(url):
     """
     Scrape recipe data from a URL.
+
+    First tries recipe-scrapers library for supported sites.
+    Falls back to schema.org JSON-LD parsing for unsupported sites.
 
     Args:
         url: The recipe URL to scrape
@@ -39,7 +156,9 @@ def scrape_recipe(url):
     Returns:
         dict: Structured recipe data
     """
+    # First, try recipe-scrapers library
     try:
+        print("Trying recipe-scrapers library...")
         scraper = scrape_me(url)
 
         recipe_data = {
@@ -65,10 +184,24 @@ def scrape_recipe(url):
                 if step.strip()
             ]
 
+        print("✓ Successfully scraped with recipe-scrapers library")
         return recipe_data
 
     except Exception as e:
-        print(f"Error scraping recipe: {e}")
+        error_msg = str(e)
+        print(f"Recipe-scrapers failed: {error_msg}")
+
+        # If the site is not supported, try schema.org fallback
+        if "not supported" in error_msg.lower() or "website" in error_msg.lower():
+            print("Trying schema.org fallback parser...")
+            recipe_data = scrape_with_schema_org(url)
+
+            if recipe_data:
+                print("✓ Successfully scraped with schema.org fallback")
+                return recipe_data
+            else:
+                print("✗ Schema.org fallback failed - no structured data found")
+
         return None
 
 
