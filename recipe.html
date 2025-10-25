@@ -3,25 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Details</title>
+    <title>Recipe Details | My Recipe Collection</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="View detailed recipe instructions, ingredients, and cooking information.">
+    <meta name="keywords" content="recipe, cooking instructions, ingredients, meal preparation">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Recipe Details">
+    <meta property="og:description" content="View detailed recipe instructions and ingredients">
+
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#667eea">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+
     <header>
         <div class="container">
             <h1>My Recipe Collection</h1>
         </div>
     </header>
 
-    <main class="container">
-        <div class="recipe-detail" id="recipe-detail">
+    <main id="main-content" class="container">
+        <div class="recipe-detail" id="recipe-detail" role="article">
             <!-- Recipe details will be loaded here -->
+            <div class="loading" aria-live="polite">Loading recipe...</div>
         </div>
     </main>
 
     <footer>
         <div class="container">
             <p>&copy; 2025 My Recipe Collection</p>
+            <p>Powered by <a href="https://github.com/kt50E/recipes" target="_blank" rel="noopener noreferrer">GitHub Actions</a></p>
         </div>
     </footer>
 

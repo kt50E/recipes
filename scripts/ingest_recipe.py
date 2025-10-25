@@ -52,6 +52,53 @@ def parse_duration(duration_str):
     return ""
 
 
+def extract_tags_from_schema(data):
+    """Extract tags/keywords from schema.org recipe data."""
+    tags = []
+
+    # Extract keywords
+    keywords = data.get('keywords', '')
+    if keywords:
+        if isinstance(keywords, str):
+            # Split by comma and clean up
+            tags.extend([k.strip() for k in keywords.split(',') if k.strip()])
+        elif isinstance(keywords, list):
+            tags.extend([str(k).strip() for k in keywords if k])
+
+    # Extract recipe category
+    category = data.get('recipeCategory', '')
+    if category:
+        if isinstance(category, str):
+            tags.append(category.strip())
+        elif isinstance(category, list):
+            tags.extend([str(c).strip() for c in category if c])
+
+    # Extract recipe cuisine
+    cuisine = data.get('recipeCuisine', '')
+    if cuisine:
+        if isinstance(cuisine, str):
+            tags.append(cuisine.strip())
+        elif isinstance(cuisine, list):
+            tags.extend([str(c).strip() for c in cuisine if c])
+
+    # Extract suitable for diet
+    diet = data.get('suitableForDiet', '')
+    if diet:
+        if isinstance(diet, str):
+            diet_clean = diet.replace('http://schema.org/', '')
+            tags.append(diet_clean)
+        elif isinstance(diet, list):
+            for d in diet:
+                if isinstance(d, str):
+                    diet_clean = d.replace('http://schema.org/', '')
+                    tags.append(diet_clean)
+
+    # Remove duplicates and clean
+    tags = list(set([tag.strip() for tag in tags if tag and len(tag.strip()) > 0]))
+
+    return tags
+
+
 def scrape_with_schema_org(url):
     """
     Fallback scraper using schema.org JSON-LD structured data.
@@ -144,6 +191,9 @@ def scrape_with_schema_org(url):
                         else:
                             servings = str(yield_val)
 
+                    # Extract tags
+                    tags = extract_tags_from_schema(data)
+
                     recipe_data = {
                         "id": generate_recipe_id(data.get('name', 'untitled')),
                         "title": data.get('name', 'Untitled Recipe'),
@@ -152,7 +202,7 @@ def scrape_with_schema_org(url):
                         "cookTime": parse_duration(data.get('cookTime', '')),
                         "servings": servings,
                         "image": data.get('image', {}).get('url', '') if isinstance(data.get('image'), dict) else (data.get('image', [''])[0] if isinstance(data.get('image'), list) else data.get('image', '')),
-                        "tags": [],
+                        "tags": tags,
                         "ingredients": ingredients,
                         "instructions": instructions,
                         "notes": "",
@@ -190,6 +240,34 @@ def scrape_recipe(url):
         print("Trying recipe-scrapers library...")
         scraper = scrape_me(url)
 
+        # Extract tags from recipe-scrapers
+        tags = []
+
+        # Try to get keywords/category from scraper if available
+        if hasattr(scraper, 'category') and scraper.category():
+            category = scraper.category()
+            if isinstance(category, str):
+                tags.append(category)
+            elif isinstance(category, list):
+                tags.extend(category)
+
+        if hasattr(scraper, 'cuisine') and scraper.cuisine():
+            cuisine = scraper.cuisine()
+            if isinstance(cuisine, str):
+                tags.append(cuisine)
+            elif isinstance(cuisine, list):
+                tags.extend(cuisine)
+
+        if hasattr(scraper, 'keywords') and scraper.keywords():
+            keywords = scraper.keywords()
+            if isinstance(keywords, str):
+                tags.extend([k.strip() for k in keywords.split(',') if k.strip()])
+            elif isinstance(keywords, list):
+                tags.extend(keywords)
+
+        # Remove duplicates and clean
+        tags = list(set([str(tag).strip() for tag in tags if tag and len(str(tag).strip()) > 0]))
+
         recipe_data = {
             "id": generate_recipe_id(scraper.title()),
             "title": scraper.title(),
@@ -198,7 +276,7 @@ def scrape_recipe(url):
             "cookTime": f"{scraper.cook_time()} min" if scraper.cook_time() else "",
             "servings": str(scraper.yields()) if scraper.yields() else "",
             "image": scraper.image() if scraper.image() else "",
-            "tags": [],
+            "tags": tags,
             "ingredients": scraper.ingredients(),
             "instructions": scraper.instructions_list() if hasattr(scraper, 'instructions_list') else [scraper.instructions()],
             "notes": "",

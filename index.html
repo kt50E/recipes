@@ -3,10 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Recipe Collection</title>
+    <title>My Recipe Collection | Personal Recipe Manager</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A curated collection of my favorite recipes. Search, organize, and manage recipes from across the web in one place.">
+    <meta name="keywords" content="recipes, cooking, meal planning, recipe collection, food">
+    <meta name="author" content="Recipe Collection">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="My Recipe Collection">
+    <meta property="og:description" content="A curated collection of my favorite recipes">
+    <meta property="og:url" content="https://kt50e.github.io/recipes/">
+
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#667eea">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+
     <header>
         <div class="container">
             <h1>My Recipe Collection</h1>
@@ -14,28 +32,71 @@
         </div>
     </header>
 
-    <main class="container">
+    <main id="main-content" class="container">
+        <!-- Add Recipe Banner -->
         <section id="add-recipe-section" class="add-recipe-banner">
             <div class="add-recipe-content">
                 <h2>Add a New Recipe</h2>
                 <p>Found a recipe you love? Add it to your collection with one click!</p>
                 <a href="https://github.com/kt50E/recipes/actions/workflows/add-recipe.yml"
                    target="_blank"
-                   class="add-recipe-btn">
+                   rel="noopener noreferrer"
+                   class="add-recipe-btn"
+                   aria-label="Add recipe from URL using GitHub Actions">
                     + Add Recipe from URL
                 </a>
                 <p class="instructions">Click the button above, then click "Run workflow" and paste your recipe URL</p>
             </div>
         </section>
 
-        <section id="recipes">
+        <!-- Search and Filter Section -->
+        <section class="search-filter-section">
+            <div class="search-bar">
+                <label for="search-input" class="sr-only">Search recipes</label>
+                <input
+                    type="search"
+                    id="search-input"
+                    placeholder="🔍 Search recipes by title, ingredient, or description..."
+                    aria-label="Search recipes">
+            </div>
+
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="tag-filter">Filter by tag:</label>
+                    <select id="tag-filter" aria-label="Filter recipes by tag">
+                        <option value="">All Tags</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sort-select">Sort by:</label>
+                    <select id="sort-select" aria-label="Sort recipes">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="title-asc">Title (A-Z)</option>
+                        <option value="title-desc">Title (Z-A)</option>
+                        <option value="prep-time">Prep Time</option>
+                        <option value="cook-time">Cook Time</option>
+                    </select>
+                </div>
+
+                <div class="recipe-count" aria-live="polite" aria-atomic="true">
+                    <span id="recipe-count-text">Loading recipes...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recipes Grid -->
+        <section id="recipes" role="list" aria-label="Recipe collection">
             <!-- Recipes will be loaded here dynamically -->
+            <div class="loading" aria-live="polite">Loading recipes...</div>
         </section>
     </main>
 
     <footer>
         <div class="container">
             <p>&copy; 2025 My Recipe Collection</p>
+            <p>Powered by <a href="https://github.com/kt50E/recipes" target="_blank" rel="noopener noreferrer">GitHub Actions</a></p>
         </div>
     </footer>
 
