@@ -92,40 +92,60 @@ function decimalToFraction(decimal) {
     return `${numerator}/${denominator}`;
 }
 
+// Normalize Unicode fraction characters to ASCII
+function normalizeUnicodeFractions(str) {
+    const unicodeFractions = {
+        '¼': '1/4',
+        '½': '1/2',
+        '¾': '3/4',
+        '⅐': '1/7',
+        '⅑': '1/9',
+        '⅒': '1/10',
+        '⅓': '1/3',
+        '⅔': '2/3',
+        '⅕': '1/5',
+        '⅖': '2/5',
+        '⅗': '3/5',
+        '⅘': '4/5',
+        '⅙': '1/6',
+        '⅚': '5/6',
+        '⅛': '1/8',
+        '⅜': '3/8',
+        '⅝': '5/8',
+        '⅞': '7/8'
+    };
+
+    let result = str;
+    for (const [unicode, ascii] of Object.entries(unicodeFractions)) {
+        result = result.replace(new RegExp(unicode, 'g'), ascii);
+    }
+    return result;
+}
+
 // Scale an ingredient string by a multiplier
 function scaleIngredient(ingredient, multiplier) {
     if (multiplier === 1) return ingredient;
+
+    // First normalize any Unicode fraction characters
+    let normalized = normalizeUnicodeFractions(ingredient);
 
     // Try to find and scale any numbers in the ingredient
     // Order matters: try complex patterns first
     const numberPattern = /(\d+\s+\d+\/\d+|\d+\/\d+|\d+\.\d+|\d+)/g;
 
-    console.log(`Scaling ingredient: "${ingredient}" by ${multiplier}`);
-
-    const result = ingredient.replace(numberPattern, (match) => {
-        console.log(`  Found match: "${match}"`);
-
+    return normalized.replace(numberPattern, (match) => {
         const value = parseFraction(match);
-        console.log(`  Parsed value: ${value}`);
-
         if (value === null) return match;
 
         const scaled = value * multiplier;
-        console.log(`  Scaled value: ${scaled}`);
 
         // Format the result nicely
         if (scaled < 0.1) {
             return 'pinch of';
         }
 
-        const formatted = decimalToFraction(scaled);
-        console.log(`  Formatted result: "${formatted}"`);
-
-        return formatted;
+        return decimalToFraction(scaled);
     });
-
-    console.log(`  Final result: "${result}"`);
-    return result;
 }
 
 // Load and display recipe details
