@@ -99,9 +99,113 @@ def extract_tags_from_schema(data):
     return tags
 
 
+def parse_microdata_recipe(recipe_elem, url):
+    """Parse recipe data from HTML microdata format."""
+    try:
+        def get_itemprop(prop_name):
+            """Get value from itemprop attribute."""
+            elem = recipe_elem.find(attrs={'itemprop': prop_name})
+            if elem:
+                # Check for content attribute first (common in meta tags)
+                if elem.get('content'):
+                    return elem.get('content')
+                # Then check for text content
+                return elem.get_text(strip=True)
+            return ""
+
+        def get_itemprop_list(prop_name):
+            """Get list of values from itemprop attributes."""
+            elems = recipe_elem.find_all(attrs={'itemprop': prop_name})
+            results = []
+            for elem in elems:
+                if elem.get('content'):
+                    results.append(elem.get('content'))
+                else:
+                    text = elem.get_text(strip=True)
+                    if text:
+                        results.append(text)
+            return results
+
+        # Extract basic info
+        title = get_itemprop('name') or 'Untitled Recipe'
+        description = get_itemprop('description')
+
+        # Extract times
+        prep_time = parse_duration(get_itemprop('prepTime'))
+        cook_time = parse_duration(get_itemprop('cookTime'))
+
+        # Extract servings
+        servings = get_itemprop('recipeYield') or get_itemprop('yields')
+
+        # Extract image
+        image_elem = recipe_elem.find(attrs={'itemprop': 'image'})
+        image = ''
+        if image_elem:
+            image = image_elem.get('src') or image_elem.get('content') or ''
+
+        # Extract ingredients
+        ingredients = get_itemprop_list('recipeIngredient')
+
+        # Extract instructions
+        instructions = []
+        instruction_elems = recipe_elem.find_all(attrs={'itemprop': 'recipeInstructions'})
+        for elem in instruction_elems:
+            # Check if it has HowToStep children
+            steps = elem.find_all(attrs={'itemprop': 'text'})
+            if steps:
+                instructions.extend([step.get_text(strip=True) for step in steps if step.get_text(strip=True)])
+            else:
+                text = elem.get_text(strip=True)
+                if text:
+                    instructions.append(text)
+
+        # If instructions came as one block, try to split them
+        if len(instructions) == 1 and '\n' in instructions[0]:
+            instructions = [s.strip() for s in instructions[0].split('\n') if s.strip()]
+
+        # Extract tags
+        tags = []
+        keywords = get_itemprop('keywords')
+        if keywords:
+            tags.extend([k.strip() for k in keywords.split(',') if k.strip()])
+
+        category = get_itemprop('recipeCategory')
+        if category:
+            tags.append(category)
+
+        cuisine = get_itemprop('recipeCuisine')
+        if cuisine:
+            tags.append(cuisine)
+
+        # Remove duplicates
+        tags = list(set([tag.strip() for tag in tags if tag and len(tag.strip()) > 0]))
+
+        recipe_data = {
+            "id": generate_recipe_id(title),
+            "title": title,
+            "description": description,
+            "prepTime": prep_time,
+            "cookTime": cook_time,
+            "servings": servings,
+            "image": image,
+            "tags": tags,
+            "ingredients": ingredients,
+            "instructions": instructions,
+            "notes": "",
+            "sourceUrl": url,
+            "dateAdded": date.today().isoformat()
+        }
+
+        return recipe_data
+
+    except Exception as e:
+        print(f"Error parsing microdata: {e}")
+        return None
+
+
 def scrape_with_schema_org(url):
     """
-    Fallback scraper using schema.org JSON-LD structured data.
+    Fallback scraper using schema.org structured data (JSON-LD or microdata).
     Most recipe websites include this for SEO purposes.
     """
     try:
@@ -113,7 +217,15 @@ def scrape_with_schema_org(url):
 
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Find JSON-LD script tags
+        # First, try to find microdata (HTML with itemtype attribute)
+        recipe_microdata = soup.find(attrs={'itemtype': lambda x: x and 'schema.org/Recipe' in x if x else False})
+        if recipe_microdata:
+            print("Found microdata recipe structure")
+            recipe_data = parse_microdata_recipe(recipe_microdata, url)
+            if recipe_data:
+                return recipe_data
+
+        # Fall back to JSON-LD script tags
         scripts = soup.find_all('script', type='application/ld+json')
 
         for script in scripts:
@@ -251,12 +363,18 @@ def scrape_recipe(url):
             elif isinstance(category, list):
                 tags.extend(category)
 
-        if hasattr(scraper, 'cuisine') and scraper.cuisine():
-            cuisine = scraper.cuisine()
-            if isinstance(cuisine, str):
-                tags.append(cuisine)
-            elif isinstance(cuisine, list):
-                tags.extend(cuisine)
+        # Try to get cuisine, but handle missing data gracefully
+        try:
+            if hasattr(scraper, 'cuisine'):
+                cuisine = scraper.cuisine()
+                if cuisine:
+                    if isinstance(cuisine, str):
+                        tags.append(cuisine)
+                    elif isinstance(cuisine, list):
+                        tags.extend(cuisine)
+        except Exception:
+            # Cuisine data not available or caused an error, skip it
+            pass
 
         if hasattr(scraper, 'keywords') and scraper.keywords():
             keywords = scraper.keywords()
@@ -298,16 +416,16 @@ def scrape_recipe(url):
         error_msg = str(e)
         print(f"Recipe-scrapers failed: {error_msg}")
 
-        # If the site is not supported, try schema.org fallback
-        if "not supported" in error_msg.lower() or "website" in error_msg.lower():
-            print("Trying schema.org fallback parser...")
-            recipe_data = scrape_with_schema_org(url)
+        # Try schema.org fallback for any recipe-scrapers failure
+        # This handles unsupported sites, missing data, or parsing errors
+        print("Trying schema.org fallback parser...")
+        recipe_data = scrape_with_schema_org(url)
 
-            if recipe_data:
-                print("✓ Successfully scraped with schema.org fallback")
-                return recipe_data
-            else:
-                print("✗ Schema.org fallback failed - no structured data found")
+        if recipe_data:
+            print("✓ Successfully scraped with schema.org fallback")
+            return recipe_data
+        else:
+            print("✗ Schema.org fallback failed - no structured data found")
 
         return None
 
