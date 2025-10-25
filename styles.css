@@ -211,12 +211,13 @@ header::after {
 
 header h1 {
     font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
     color: #5d4e37;
     font-weight: var(--font-weight-bold);
     font-family: Georgia, 'Times New Roman', serif;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.05em;
     text-shadow: 0 2px 4px rgba(93, 78, 55, 0.1);
+    text-transform: uppercase;
 }
 
 .tagline {
@@ -225,6 +226,21 @@ header h1 {
     font-weight: var(--font-weight-normal);
     font-style: italic;
     font-family: Georgia, 'Times New Roman', serif;
+    line-height: var(--line-height-relaxed);
+}
+
+.jump-to-recipe {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(107, 142, 35, 0.15) 0%, rgba(139, 195, 74, 0.15) 100%);
+    color: #5a7a1e;
+    padding: 0.15rem 0.6rem;
+    border-radius: var(--border-radius-sm);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-family-base);
+    border: 1px solid rgba(107, 142, 35, 0.2);
+    box-shadow: 0 1px 3px rgba(107, 142, 35, 0.1);
+    transition: all var(--transition-base);
 }
 
 /* ===================================

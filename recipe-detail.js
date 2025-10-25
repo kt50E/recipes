@@ -209,7 +209,7 @@ function displayError(message) {
 // Update page title with recipe name
 function updatePageTitle(recipeTitle) {
     if (recipeTitle) {
-        document.title = `${recipeTitle} | My Recipe Collection`;
+        document.title = `${recipeTitle} | TLDR Kitchen`;
     }
 }
 
