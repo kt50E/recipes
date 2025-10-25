@@ -199,63 +199,61 @@ header {
 header::before {
     content: '';
     position: absolute;
-    top: 35%;
-    left: -300px;
-    width: 300px;
-    height: 40px;
-    background: linear-gradient(
-        to right,
-        transparent 0%,
-        rgba(255, 0, 0, 0.6) 10%,
-        rgba(255, 154, 0, 0.6) 20%,
-        rgba(255, 255, 0, 0.6) 30%,
-        rgba(0, 255, 0, 0.6) 40%,
-        rgba(0, 123, 255, 0.6) 50%,
-        rgba(75, 0, 130, 0.6) 60%,
-        rgba(148, 0, 211, 0.6) 70%,
-        transparent 80%
-    );
-    border-radius: 10px;
-    animation: nyanCatFly 8s linear infinite;
+    top: 50%;
+    left: -400px;
+    width: 250px;
+    height: 35px;
+    transform: translateY(-50%);
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #FF0000 0px, #FF0000 6px,
+            #FF9A00 6px, #FF9A00 12px,
+            #FFFF00 12px, #FFFF00 18px,
+            #00FF00 18px, #00FF00 24px,
+            #0099FF 24px, #0099FF 30px,
+            #A349A4 30px, #A349A4 36px
+        );
+    border-radius: 5px;
+    animation: nyanCatFly 10s linear infinite;
     z-index: 1;
-    box-shadow:
-        0 0 20px rgba(255, 0, 255, 0.4),
-        0 0 30px rgba(0, 255, 255, 0.3);
+    opacity: 0.7;
+    box-shadow: 0 0 15px rgba(255, 100, 255, 0.4);
 }
 
-/* Stars/Sparkles that trail behind */
+/* Nyan Cat Image */
 header::after {
-    content: '✦ ★ ✦ ⭐ ✦';
+    content: '';
     position: absolute;
-    top: 35%;
-    left: -200px;
-    font-size: 1.2rem;
-    color: rgba(255, 215, 0, 0.8);
-    animation: nyanCatFly 8s linear infinite;
-    animation-delay: 0.3s;
+    top: 50%;
+    left: -150px;
+    width: 80px;
+    height: 80px;
+    transform: translateY(-50%);
+    background-image: url('https://www.citypng.com/public/uploads/preview/cute-rainbow-nyan-cat-hd-transparent-background-11639658808e90sltbkfx.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: nyanCatFly 10s linear infinite, nyanCatBounce 0.5s ease-in-out infinite;
     z-index: 2;
-    text-shadow:
-        0 0 10px rgba(255, 215, 0, 0.8),
-        0 0 20px rgba(255, 255, 255, 0.6);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 }
 
 @keyframes nyanCatFly {
     0% {
-        left: -300px;
-        transform: translateY(0px);
-    }
-    25% {
-        transform: translateY(-10px);
-    }
-    50% {
-        transform: translateY(0px);
-    }
-    75% {
-        transform: translateY(10px);
+        left: -400px;
     }
     100% {
         left: calc(100% + 100px);
-        transform: translateY(0px);
+    }
+}
+
+@keyframes nyanCatBounce {
+    0%, 100% {
+        transform: translateY(-50%) translateX(0);
+    }
+    50% {
+        transform: translateY(-54%) translateX(0);
     }
 }
 
@@ -956,6 +954,17 @@ footer a:hover {
 
     header {
         padding: var(--space-xl) 0;
+    }
+
+    /* Smaller Nyan Cat on mobile */
+    header::before {
+        width: 150px;
+        height: 25px;
+    }
+
+    header::after {
+        width: 50px;
+        height: 50px;
     }
 
     .add-recipe-banner {
