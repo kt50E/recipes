@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 import re
 
 try:
-    from recipe_scrapers import scrape_me_now
+    from recipe_scrapers import scrape_me
 except ImportError:
     print("Error: recipe_scrapers library not found.")
     print("Please install it with: pip install recipe-scrapers")
@@ -40,7 +40,7 @@ def scrape_recipe(url):
         dict: Structured recipe data
     """
     try:
-        scraper = scrape_me_now(url)
+        scraper = scrape_me(url)
 
         recipe_data = {
             "id": generate_recipe_id(scraper.title()),
@@ -86,13 +86,14 @@ def save_recipes(recipes, recipes_file):
         json.dump(recipes, f, indent=2, ensure_ascii=False)
 
 
-def add_recipe(url, recipes_file='../data/recipes.json'):
+def add_recipe(url, recipes_file='../data/recipes.json', auto_overwrite=False):
     """
     Add a new recipe from a URL.
 
     Args:
         url: The recipe URL to scrape
         recipes_file: Path to the recipes JSON file
+        auto_overwrite: If True, automatically overwrite existing recipes without prompting
     """
     print(f"Scraping recipe from: {url}")
 
@@ -101,7 +102,7 @@ def add_recipe(url, recipes_file='../data/recipes.json'):
 
     if not recipe_data:
         print("Failed to scrape recipe. Please check the URL and try again.")
-        return False
+        sys.exit(1)
 
     print(f"\nSuccessfully scraped: {recipe_data['title']}")
 
@@ -111,12 +112,20 @@ def add_recipe(url, recipes_file='../data/recipes.json'):
     # Check if recipe already exists
     existing_ids = [r['id'] for r in recipes]
     if recipe_data['id'] in existing_ids:
-        response = input(f"Recipe with similar title already exists. Overwrite? (y/n): ")
-        if response.lower() != 'y':
-            print("Recipe not added.")
-            return False
-        # Remove existing recipe
-        recipes = [r for r in recipes if r['id'] != recipe_data['id']]
+        if auto_overwrite:
+            print(f"Recipe with similar title already exists. Auto-overwriting...")
+            recipes = [r for r in recipes if r['id'] != recipe_data['id']]
+        elif sys.stdin.isatty():
+            # Only prompt if running interactively
+            response = input(f"Recipe with similar title already exists. Overwrite? (y/n): ")
+            if response.lower() != 'y':
+                print("Recipe not added.")
+                sys.exit(0)
+            recipes = [r for r in recipes if r['id'] != recipe_data['id']]
+        else:
+            # In non-interactive mode (like GitHub Actions), auto-overwrite
+            print(f"Recipe with similar title already exists. Auto-overwriting in non-interactive mode...")
+            recipes = [r for r in recipes if r['id'] != recipe_data['id']]
 
     # Add new recipe
     recipes.append(recipe_data)
@@ -144,7 +153,13 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     recipes_file = os.path.join(script_dir, '..', 'data', 'recipes.json')
 
-    add_recipe(url, recipes_file)
+    try:
+        success = add_recipe(url, recipes_file)
+        if not success:
+            sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
 
 if __name__ == '__main__':
