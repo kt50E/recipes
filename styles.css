@@ -297,6 +297,124 @@ header::before {
     }
 }
 
+/* ===================================
+   Welcome Banner
+   =================================== */
+.welcome-banner {
+    background-color: var(--color-bg-notes);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-xl) 0;
+    position: relative;
+    transition: all var(--transition-slow);
+    overflow: hidden;
+}
+
+.welcome-banner.hidden {
+    max-height: 0;
+    padding: 0;
+    opacity: 0;
+    margin: 0;
+    border: none;
+}
+
+.welcome-banner .container {
+    position: relative;
+}
+
+.banner-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-right: var(--space-3xl);
+}
+
+.banner-title {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--space-md) 0;
+    font-family: 'Fredoka One', cursive;
+}
+
+.banner-content p {
+    color: var(--color-text-primary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-base);
+}
+
+.banner-content p:last-of-type {
+    margin-bottom: 0;
+}
+
+.banner-signature {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    margin-top: var(--space-lg);
+}
+
+.banner-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    background: transparent;
+    border: none;
+    font-size: var(--font-size-3xl);
+    line-height: 1;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    padding: var(--space-xs);
+    transition: all var(--transition-fast);
+    border-radius: var(--border-radius-sm);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-close:hover {
+    color: var(--color-text-primary);
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.banner-close:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.banner-close:active {
+    transform: scale(0.95);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .welcome-banner {
+        padding: var(--space-lg) 0;
+    }
+
+    .banner-content {
+        padding-right: var(--space-2xl);
+    }
+
+    .banner-title {
+        font-size: var(--font-size-xl);
+    }
+
+    .banner-content p {
+        font-size: var(--font-size-sm);
+    }
+
+    .banner-close {
+        top: var(--space-sm);
+        right: var(--space-sm);
+        font-size: var(--font-size-2xl);
+        width: 32px;
+        height: 32px;
+    }
+}
+
 /* Responsive sizing for cat */
 @media (max-width: 768px) {
     header::before {
