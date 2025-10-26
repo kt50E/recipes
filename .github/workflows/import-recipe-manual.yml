@@ -1,0 +1,86 @@
+name: Import Recipe (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Recipe Title'
+        required: true
+        type: string
+      recipe_text:
+        description: 'Recipe ingredients and instructions (paste full text from OCR)'
+        required: true
+        type: string
+      prep_time:
+        description: 'Prep Time (e.g., "10 min" or "1h 30min")'
+        required: false
+        type: string
+        default: ''
+      cook_time:
+        description: 'Cook Time (e.g., "30 min")'
+        required: false
+        type: string
+        default: ''
+      servings:
+        description: 'Servings (e.g., "4" or "6-8")'
+        required: false
+        type: string
+        default: ''
+      description:
+        description: 'Recipe Description (optional)'
+        required: false
+        type: string
+        default: ''
+      image_url:
+        description: 'Image URL (optional - leave blank to skip)'
+        required: false
+        type: string
+        default: ''
+      source_url:
+        description: 'Original Source URL (optional)'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  import-recipe:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Import recipe
+        run: |
+          cd scripts
+          python import_recipe_manual.py \
+            --title "${{ github.event.inputs.title }}" \
+            --text "${{ github.event.inputs.recipe_text }}" \
+            --prep-time "${{ github.event.inputs.prep_time }}" \
+            --cook-time "${{ github.event.inputs.cook_time }}" \
+            --servings "${{ github.event.inputs.servings }}" \
+            --description "${{ github.event.inputs.description }}" \
+            --image "${{ github.event.inputs.image_url }}" \
+            --source "${{ github.event.inputs.source_url }}"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/recipes.json
+          git diff --staged --quiet || git commit -m "Add recipe: ${{ github.event.inputs.title }}
+
+          🤖 Manual recipe import via GitHub Actions"
+          git push
