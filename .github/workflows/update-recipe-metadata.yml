@@ -1,0 +1,76 @@
+name: Update Recipe Metadata
+
+on:
+  workflow_dispatch:
+    inputs:
+      recipe_id:
+        description: 'Recipe ID to update'
+        required: true
+        type: string
+      description:
+        description: 'Recipe description (leave blank to keep current)'
+        required: false
+        type: string
+        default: ''
+      image_url:
+        description: 'Image URL (leave blank to keep current)'
+        required: false
+        type: string
+        default: ''
+      prep_time:
+        description: 'Prep time (e.g., "15 min" - leave blank to keep current)'
+        required: false
+        type: string
+        default: ''
+      cook_time:
+        description: 'Cook time (e.g., "30 min" - leave blank to keep current)'
+        required: false
+        type: string
+        default: ''
+      servings:
+        description: 'Number of servings (leave blank to keep current)'
+        required: false
+        type: string
+        default: ''
+      source_url:
+        description: 'Original recipe source URL (leave blank to keep current)'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  update-metadata:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Update recipe metadata
+        run: |
+          cd scripts
+          python update_recipe_metadata.py "${{ github.event.inputs.recipe_id }}" \
+            ${{ github.event.inputs.description != '' && format('--description "{0}"', github.event.inputs.description) || '' }} \
+            ${{ github.event.inputs.image_url != '' && format('--image "{0}"', github.event.inputs.image_url) || '' }} \
+            ${{ github.event.inputs.prep_time != '' && format('--prep-time "{0}"', github.event.inputs.prep_time) || '' }} \
+            ${{ github.event.inputs.cook_time != '' && format('--cook-time "{0}"', github.event.inputs.cook_time) || '' }} \
+            ${{ github.event.inputs.servings != '' && format('--servings "{0}"', github.event.inputs.servings) || '' }} \
+            ${{ github.event.inputs.source_url != '' && format('--source-url "{0}"', github.event.inputs.source_url) || '' }}
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/recipes.json
+          git diff --staged --quiet || git commit -m "Update metadata for: ${{ github.event.inputs.recipe_id }}
+
+          🤖 Automated metadata update via GitHub Actions"
+          git push
