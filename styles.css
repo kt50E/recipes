@@ -339,41 +339,50 @@ header::before {
 }
 
 /* ===================================
-   Welcome Banner
+   Welcome Banner - Minimalist Left Accent Design
    =================================== */
 .welcome-banner {
-    background-color: var(--color-bg-notes);
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--space-xl) 0;
+    background-color: #FFFEF7;
+    border-left: 5px solid #FFFACD;
+    border-radius: 8px;
+    margin: 0 auto var(--space-xl) auto;
+    max-width: var(--container-max-width);
+    padding: 0 var(--container-padding);
     position: relative;
-    transition: all var(--transition-slow);
-    overflow: hidden;
+    transition: opacity var(--transition-slow);
+
+    /* Soft left glow + subtle card shadow */
+    box-shadow:
+        -3px 0 10px rgba(255, 250, 205, 0.4),
+        -6px 0 20px rgba(255, 250, 205, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .welcome-banner.hidden {
-    max-height: 0;
-    padding: 0;
-    opacity: 0;
-    margin: 0;
-    border: none;
+    display: none;
 }
 
 .welcome-banner .container {
     position: relative;
+    padding: 0;
 }
 
 .banner-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding-right: var(--space-3xl);
+    max-width: 100%;
+    padding: 1.5rem 3rem 1.5rem 2rem;
 }
 
 .banner-title {
     font-size: var(--font-size-2xl);
-    color: var(--color-primary);
+    color: #FFFACD;
     font-weight: var(--font-weight-bold);
     margin: 0 0 var(--space-md) 0;
     font-family: 'Fredoka One', cursive;
+
+    /* Minimal title glow */
+    text-shadow:
+        0 0 2px rgba(255, 250, 205, 0.4),
+        0 0 5px rgba(255, 250, 205, 0.2);
 }
 
 .banner-content p {
@@ -429,14 +438,21 @@ header::before {
     transform: scale(0.95);
 }
 
-/* Mobile Responsiveness */
+/* Mobile Responsiveness for Banner */
 @media (max-width: 768px) {
     .welcome-banner {
-        padding: var(--space-lg) 0;
+        border-left-width: 3px;
+        border-radius: 6px;
+
+        /* Softer glow for mobile */
+        box-shadow:
+            -2px 0 8px rgba(255, 250, 205, 0.3),
+            -4px 0 15px rgba(255, 250, 205, 0.15),
+            0 2px 6px rgba(0, 0, 0, 0.04);
     }
 
     .banner-content {
-        padding-right: var(--space-2xl);
+        padding: 1rem 2rem 1rem 1.2rem;
     }
 
     .banner-title {
