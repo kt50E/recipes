@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Random animation duration and delay
         const duration = Math.random() * (maxDuration - minDuration) + minDuration;
-        const delay = Math.random() * maxDuration;
+        const delay = -Math.random() * maxDuration;
 
         // Apply styles
         star.style.left = `${xPos}%`;
