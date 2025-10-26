@@ -1,44 +1,5 @@
 [
   {
-    "id": "small-batch-chocolate-chip-cookies",
-    "title": "Small Batch Chocolate Chip Cookies",
-    "description": "Soft and chewy brown butter chocolate chip cookies with crisp edges.",
-    "prepTime": "30 min",
-    "cookTime": "15 min",
-    "servings": "8",
-    "image": "https://freshbeanbakery.com/wp-content/uploads/2024/04/IMG_5466.jpg",
-    "tags": [],
-    "ingredients": [
-      "113 g unsalted butter ((8 tbsp.))",
-      "100 g dark brown sugar* ((½ c.))",
-      "50 g granulated sugar ((¼ c.))",
-      "1  egg (room temperature)",
-      "½ tsp. vanilla",
-      "160 g all purpose flour ((1 ⅓ c.))",
-      "¾ tsp. baking powder",
-      "¼ tsp. baking soda",
-      "½ tsp. salt",
-      "150 g semi-sweet chocolate** ( (¾ c. + 2 tbsp.))"
-    ],
-    "instructions": [
-      "In a small saucepan set over medium heat, brown the butter. Stir the butter occasionally until it turns amber in color and develops little brown specks.",
-      "Transfer the brown butter to a medium sized mixing bowl and set it in the freezer for 5 minutes to chill. You should be left with at least 90g of brown butter, if you have a little less, just add in some water until you reach 90g.",
-      "Once the butter has cooled down a bit, whisk in both sugars.",
-      "Whisk in the egg and vanilla until well combined.",
-      "Add in the flour, baking powder, baking soda, and salt. Use a rubber spatula to fold the mixture together just until a few flour streaks remain.",
-      "Add in the chocolate and fold the mixture together just until no flour streaks remain. Cover the bowl tightly with plastic wrap and place it in the fridge for 30 minutes to firm up.***",
-      "Preheat the oven to 350°F / 175°C.",
-      "Scoop out heaping 3 tbsp. scoops of the cookie dough. (If you chilled the dough for longer, you may need to wait 10-20 minutes for it to become soft enough to scoop.)",
-      "Evenly space out the cookie dough balls on a parchment lined cookie sheet and top them with extra chocolate.",
-      "Bake for 12-14 minutes, or until the edges of the cookies start to turn golden brown.",
-      "Once the cookies come out of the oven, I recommend &quot;scooting&quot; them. This just means take a bowl, cup, or biscuit cutter that is slightly larger than the cookie, place it on top of the cookie, and swirl the bowl around to make the cookie a little more round.",
-      "Let the cookies sit on the hot baking tray for at least 5 minutes before transferring them to a wire rack to cool.  Sprinkle with flaky sea salt, serve and enjoy!"
-    ],
-    "notes": "Chopped bitter sweet chocolate bar, refrigerate dough 24-48 hours, reduce white sugar 15 grams",
-    "sourceUrl": "https://freshbeanbakery.com/small-batch-brown-butter-chocolate-chip-cookies/",
-    "dateAdded": "2025-10-25"
-  },
-  {
     "id": "best-fluffy-pancake-recipe",
     "title": "Best Fluffy Pancake Recipe",
     "description": "Get ready to make the most incredible fluffy pancakes yet with my step-by-step secrets that make this recipe foolproof!",
