@@ -181,7 +181,7 @@ h1, h2, h3, h4, h5, h6 {
 header {
     background: #0f4476;
     color: #ffffff;
-    padding: var(--space-3xl) 0;
+    padding: var(--space-3xl) 0 0 0;
     text-align: center;
     margin-bottom: var(--space-xl);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -192,8 +192,8 @@ header {
 
 header h1 {
     font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
-    margin-top: 100px;
-    margin-bottom: var(--space-md);
+    margin-top: 80px;
+    margin-bottom: 0;
     color: #ffffff;
     font-weight: normal;
     font-family: 'Fredoka One', cursive;
