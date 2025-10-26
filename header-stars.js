@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!header) return;
 
     // Configuration
-    const numberOfStars = 50;
+    const numberOfStars = 80;
     const minSize = 2;
     const maxSize = 3;
-    const minDuration = 2;
-    const maxDuration = 5;
+    const minDuration = 8;
+    const maxDuration = 15;
 
     // Create stars
     for (let i = 0; i < numberOfStars; i++) {

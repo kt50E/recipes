@@ -196,7 +196,8 @@ header h1 {
     margin-bottom: var(--space-lg);
     color: #ffffff;
     font-weight: normal;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: 0.08em;
     text-shadow:
         2px 2px 4px rgba(0, 0, 0, 0.3),
         0 0 10px rgba(255, 255, 255, 0.2);
@@ -336,7 +337,7 @@ header::after {
         radial-gradient(2px 2px at 62% 12%, white, transparent);
     background-size: 200% 200%;
     background-position: 0% 0%;
-    animation: twinkle 8s linear infinite;
+    animation: twinkle 15s linear infinite;
     opacity: 0.6;
 }
 
@@ -366,13 +367,13 @@ header::after {
         opacity: 0;
         transform: translateX(100vw) scale(1);
     }
-    25% {
+    10% {
         opacity: 1;
-        transform: translateX(75vw) scale(1.2);
+        transform: translateX(90vw) scale(1.2);
     }
-    75% {
+    90% {
         opacity: 1;
-        transform: translateX(25vw) scale(1.2);
+        transform: translateX(10vw) scale(1.2);
     }
     100% {
         opacity: 0;
