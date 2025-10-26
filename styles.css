@@ -192,6 +192,7 @@ header {
 
 header h1 {
     font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
+    margin-top: 100px;
     margin-bottom: var(--space-md);
     color: #ffffff;
     font-weight: normal;
@@ -313,7 +314,27 @@ header::after {
         radial-gradient(2px 2px at 90% 60%, white, transparent),
         radial-gradient(1px 1px at 33% 80%, white, transparent),
         radial-gradient(2px 2px at 15% 15%, white, transparent),
-        radial-gradient(1px 1px at 70% 40%, white, transparent);
+        radial-gradient(1px 1px at 70% 40%, white, transparent),
+        radial-gradient(1px 1px at 25% 55%, white, transparent),
+        radial-gradient(2px 2px at 45% 20%, white, transparent),
+        radial-gradient(1px 1px at 85% 35%, white, transparent),
+        radial-gradient(2px 2px at 10% 65%, white, transparent),
+        radial-gradient(1px 1px at 95% 45%, white, transparent),
+        radial-gradient(1px 1px at 40% 85%, white, transparent),
+        radial-gradient(2px 2px at 55% 25%, white, transparent),
+        radial-gradient(1px 1px at 75% 75%, white, transparent),
+        radial-gradient(2px 2px at 30% 10%, white, transparent),
+        radial-gradient(1px 1px at 65% 90%, white, transparent),
+        radial-gradient(1px 1px at 5% 40%, white, transparent),
+        radial-gradient(2px 2px at 88% 80%, white, transparent),
+        radial-gradient(1px 1px at 42% 5%, white, transparent),
+        radial-gradient(2px 2px at 72% 55%, white, transparent),
+        radial-gradient(1px 1px at 18% 92%, white, transparent),
+        radial-gradient(1px 1px at 52% 68%, white, transparent),
+        radial-gradient(2px 2px at 35% 42%, white, transparent),
+        radial-gradient(1px 1px at 92% 22%, white, transparent),
+        radial-gradient(2px 2px at 8% 28%, white, transparent),
+        radial-gradient(1px 1px at 62% 12%, white, transparent);
     background-size: 200% 200%;
     background-position: 0% 0%;
     animation: twinkle 8s linear infinite;
