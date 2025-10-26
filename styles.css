@@ -181,7 +181,7 @@ h1, h2, h3, h4, h5, h6 {
 header {
     background: #0f4476;
     color: #ffffff;
-    padding: var(--space-3xl) 0 0 0;
+    padding: var(--space-3xl) 0 var(--space-xl) 0;
     text-align: center;
     margin-bottom: var(--space-xl);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -193,11 +193,10 @@ header {
 header h1 {
     font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
     margin-top: 80px;
-    margin-bottom: 0;
+    margin-bottom: var(--space-lg);
     color: #ffffff;
     font-weight: normal;
-    font-family: 'Fredoka One', cursive;
-    letter-spacing: 0.08em;
+    font-family: 'Press Start 2P', cursive;
     text-shadow:
         2px 2px 4px rgba(0, 0, 0, 0.3),
         0 0 10px rgba(255, 255, 255, 0.2);
@@ -309,32 +308,32 @@ header::after {
     background-image:
         radial-gradient(2px 2px at 20% 30%, white, transparent),
         radial-gradient(2px 2px at 60% 70%, white, transparent),
-        radial-gradient(1px 1px at 50% 50%, white, transparent),
-        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 50% 50%, white, transparent),
+        radial-gradient(2px 2px at 80% 10%, white, transparent),
         radial-gradient(2px 2px at 90% 60%, white, transparent),
-        radial-gradient(1px 1px at 33% 80%, white, transparent),
+        radial-gradient(2px 2px at 33% 80%, white, transparent),
         radial-gradient(2px 2px at 15% 15%, white, transparent),
-        radial-gradient(1px 1px at 70% 40%, white, transparent),
-        radial-gradient(1px 1px at 25% 55%, white, transparent),
+        radial-gradient(2px 2px at 70% 40%, white, transparent),
+        radial-gradient(2px 2px at 25% 55%, white, transparent),
         radial-gradient(2px 2px at 45% 20%, white, transparent),
-        radial-gradient(1px 1px at 85% 35%, white, transparent),
+        radial-gradient(2px 2px at 85% 35%, white, transparent),
         radial-gradient(2px 2px at 10% 65%, white, transparent),
-        radial-gradient(1px 1px at 95% 45%, white, transparent),
-        radial-gradient(1px 1px at 40% 85%, white, transparent),
+        radial-gradient(2px 2px at 95% 45%, white, transparent),
+        radial-gradient(2px 2px at 40% 85%, white, transparent),
         radial-gradient(2px 2px at 55% 25%, white, transparent),
-        radial-gradient(1px 1px at 75% 75%, white, transparent),
+        radial-gradient(2px 2px at 75% 75%, white, transparent),
         radial-gradient(2px 2px at 30% 10%, white, transparent),
-        radial-gradient(1px 1px at 65% 90%, white, transparent),
-        radial-gradient(1px 1px at 5% 40%, white, transparent),
+        radial-gradient(2px 2px at 65% 90%, white, transparent),
+        radial-gradient(2px 2px at 5% 40%, white, transparent),
         radial-gradient(2px 2px at 88% 80%, white, transparent),
-        radial-gradient(1px 1px at 42% 5%, white, transparent),
+        radial-gradient(2px 2px at 42% 5%, white, transparent),
         radial-gradient(2px 2px at 72% 55%, white, transparent),
-        radial-gradient(1px 1px at 18% 92%, white, transparent),
-        radial-gradient(1px 1px at 52% 68%, white, transparent),
+        radial-gradient(2px 2px at 18% 92%, white, transparent),
+        radial-gradient(2px 2px at 52% 68%, white, transparent),
         radial-gradient(2px 2px at 35% 42%, white, transparent),
-        radial-gradient(1px 1px at 92% 22%, white, transparent),
+        radial-gradient(2px 2px at 92% 22%, white, transparent),
         radial-gradient(2px 2px at 8% 28%, white, transparent),
-        radial-gradient(1px 1px at 62% 12%, white, transparent);
+        radial-gradient(2px 2px at 62% 12%, white, transparent);
     background-size: 200% 200%;
     background-position: 0% 0%;
     animation: twinkle 8s linear infinite;
@@ -358,18 +357,26 @@ header::after {
     pointer-events: none;
     z-index: 1;
     box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
-    animation: starTwinkle infinite ease-in-out;
+    animation: starTwinkle infinite linear;
     opacity: 0;
 }
 
 @keyframes starTwinkle {
-    0%, 100% {
+    0% {
         opacity: 0;
-        transform: scale(1);
+        transform: translateX(100vw) scale(1);
     }
-    50% {
+    25% {
         opacity: 1;
-        transform: scale(1.2);
+        transform: translateX(75vw) scale(1.2);
+    }
+    75% {
+        opacity: 1;
+        transform: translateX(25vw) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100px) scale(1);
     }
 }
 

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Configuration
     const numberOfStars = 50;
-    const minSize = 1;
+    const minSize = 2;
     const maxSize = 3;
     const minDuration = 2;
     const maxDuration = 5;
