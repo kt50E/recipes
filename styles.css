@@ -2,29 +2,29 @@
    CSS Custom Properties (Design Tokens)
    =================================== */
 :root {
-    /* Colors - Light Mode - Food Blog Theme */
-    --color-primary: #d4845c;
-    --color-primary-dark: #c06842;
-    --color-secondary: #8b6f47;
-    --color-accent: #6b8e23;
-    --color-accent-dark: #556b1a;
-    --color-warning: #e8a658;
-    --color-warning-dark: #d89440;
-    --color-danger: #c85a54;
-    --color-danger-dark: #b04944;
+    /* Colors - Cool Modern Theme (matches blue header) */
+    --color-primary: #5b8ec4;
+    --color-primary-dark: #4a7ab3;
+    --color-secondary: #6b7c93;
+    --color-accent: #5a9e4a;
+    --color-accent-dark: #4a8539;
+    --color-warning: #f5a623;
+    --color-warning-dark: #e09412;
+    --color-danger: #d85a54;
+    --color-danger-dark: #c04944;
 
     --color-bg-primary: #f8f9fb;
     --color-bg-secondary: #f0f2f5;
     --color-bg-tertiary: #e8eaed;
-    --color-bg-notes: #eef2f7;
+    --color-bg-notes: #eef4f9;
 
-    --color-text-primary: #3d3328;
-    --color-text-secondary: #5d4e37;
-    --color-text-tertiary: #8b7355;
-    --color-text-muted: #a89985;
+    --color-text-primary: #2c3e50;
+    --color-text-secondary: #4a5f7f;
+    --color-text-tertiary: #7a8b9c;
+    --color-text-muted: #a0aab8;
 
-    --color-header: #5d4e37;
-    --color-border: #e8d5c0;
+    --color-header: #0f4476;
+    --color-border: #d4dce6;
 
     /* Spacing */
     --space-xs: 0.25rem;
@@ -83,18 +83,18 @@
 /* Dark Mode Colors */
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-bg-primary: #1a1a1a;
-        --color-bg-secondary: #0f0f0f;
-        --color-bg-tertiary: #2a2a2a;
-        --color-bg-notes: #2d2416;
+        --color-bg-primary: #1a1d23;
+        --color-bg-secondary: #0f1114;
+        --color-bg-tertiary: #2a2e35;
+        --color-bg-notes: #1e2a35;
 
-        --color-text-primary: #e8e8e8;
-        --color-text-secondary: #b8b8b8;
-        --color-text-tertiary: #999999;
-        --color-text-muted: #666666;
+        --color-text-primary: #e8ecf0;
+        --color-text-secondary: #b8c5d0;
+        --color-text-tertiary: #95a5b5;
+        --color-text-muted: #6b7c8c;
 
-        --color-header: #1f2937;
-        --color-border: #333333;
+        --color-header: #0f4476;
+        --color-border: #3a4550;
 
         --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
         --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
@@ -169,10 +169,13 @@ h1, h2, h3, h4, h5, h6 {
     padding: var(--space-sm) var(--space-md);
     text-decoration: none;
     z-index: 100;
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--border-radius-sm);
 }
 
 .skip-to-content:focus {
     top: 0;
+    box-shadow: 0 2px 8px rgba(91, 142, 196, 0.3);
 }
 
 /* ===================================
@@ -389,7 +392,7 @@ header::after {
     border-radius: var(--border-radius-lg);
     padding: var(--space-xl);
     margin-bottom: var(--space-2xl);
-    box-shadow: 0 2px 12px rgba(93, 78, 55, 0.08);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--color-border);
 }
 
@@ -411,7 +414,7 @@ header::after {
 .search-bar input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(212, 132, 92, 0.1);
+    box-shadow: 0 0 0 3px rgba(91, 142, 196, 0.2);
 }
 
 .filter-controls {
@@ -441,6 +444,7 @@ header::after {
 .filter-controls select:focus {
     outline: none;
     border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(91, 142, 196, 0.15);
 }
 
 .filter-group {
@@ -476,25 +480,30 @@ header::after {
 
 .add-recipe-btn {
     display: inline-block;
-    background-color: rgba(139, 195, 74, 0.1);
-    color: #6b8e23;
-    padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--border-radius-pill);
+    background: linear-gradient(135deg, rgba(91, 142, 196, 0.1) 0%, rgba(74, 122, 179, 0.08) 100%);
+    color: var(--color-primary);
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--border-radius-md);
     text-decoration: none;
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-sm);
     transition: all var(--transition-base);
-    border: 1px solid rgba(139, 195, 74, 0.3);
+    border: 2px solid var(--color-primary);
 }
 
 .add-recipe-btn:hover {
-    background-color: rgba(139, 195, 74, 0.2);
-    border-color: rgba(139, 195, 74, 0.5);
-    color: #5a7a1e;
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(91, 142, 196, 0.3);
+}
+
+.add-recipe-btn:active {
+    transform: translateY(0);
 }
 
 .add-recipe-btn:focus {
-    outline: 2px solid #8bc34a;
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
 }
 
@@ -533,8 +542,8 @@ header::after {
     background: var(--color-bg-primary);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(93, 78, 55, 0.08);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -543,8 +552,8 @@ header::after {
 
 .recipe-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(93, 78, 55, 0.12);
-    border-color: #d4a574;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--color-primary);
 }
 
 .recipe-card:focus-within {
@@ -617,19 +626,26 @@ header::after {
 .view-recipe-btn {
     display: inline-block;
     margin-top: var(--space-md);
-    padding: var(--space-sm) var(--space-lg);
-    background-color: var(--color-accent);
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
     color: white;
     text-decoration: none;
-    border-radius: var(--border-radius-sm);
-    transition: background-color var(--transition-base), transform var(--transition-fast);
-    font-weight: var(--font-weight-medium);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .view-recipe-btn:hover {
-    background-color: var(--color-accent-dark);
-    transform: translateX(2px);
+    background: linear-gradient(135deg, var(--color-accent-dark) 0%, var(--color-accent) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.view-recipe-btn:active {
+    transform: translateY(0);
 }
 
 .view-recipe-btn:focus {
@@ -676,19 +692,23 @@ header::after {
     align-items: center;
     gap: var(--space-sm);
     margin-bottom: var(--space-lg);
-    color: var(--color-accent);
+    color: var(--color-primary);
     text-decoration: none;
-    font-weight: var(--font-weight-medium);
-    transition: gap var(--transition-base);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    transition: all var(--transition-base);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius-sm);
 }
 
 .back-link:hover {
     gap: var(--space-md);
-    text-decoration: underline;
+    background: rgba(91, 142, 196, 0.1);
+    color: var(--color-primary-dark);
 }
 
 .back-link:focus {
-    outline: 2px solid var(--color-accent);
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
     border-radius: var(--border-radius-sm);
 }
@@ -809,26 +829,27 @@ header::after {
 .serving-calculator input:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 0 3px rgba(90, 158, 74, 0.2);
 }
 
 .serving-calculator button {
-    padding: var(--space-sm) var(--space-lg);
-    background: var(--color-accent);
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
     color: white;
     border: none;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-md);
     cursor: pointer;
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-base);
     transition: all var(--transition-base);
     white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .serving-calculator button:hover {
-    background: var(--color-accent-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, var(--color-accent-dark) 0%, var(--color-accent) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .serving-calculator button:active {
@@ -841,11 +862,11 @@ header::after {
 }
 
 .serving-calculator button:last-of-type {
-    background: var(--color-text-tertiary);
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-text-secondary) 100%);
 }
 
 .serving-calculator button:last-of-type:hover {
-    background: var(--color-text-secondary);
+    background: linear-gradient(135deg, var(--color-text-secondary) 0%, var(--color-secondary) 100%);
 }
 
 @media (max-width: 768px) {
@@ -914,24 +935,29 @@ header::after {
 .edit-notes-btn,
 .delete-recipe-btn {
     display: inline-block;
-    padding: var(--space-md) var(--space-xl);
+    padding: 0.75rem 1.5rem;
     color: white;
     text-decoration: none;
     border-radius: var(--border-radius-md);
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-base);
     transition: all var(--transition-base);
-    min-width: 140px;
+    min-width: 160px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .edit-notes-btn {
-    background-color: var(--color-warning);
+    background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-warning-dark) 100%);
 }
 
 .edit-notes-btn:hover {
-    background-color: var(--color-warning-dark);
+    background: linear-gradient(135deg, var(--color-warning-dark) 0%, var(--color-warning) 100%);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.edit-notes-btn:active {
+    transform: translateY(0);
 }
 
 .edit-notes-btn:focus {
@@ -940,13 +966,17 @@ header::after {
 }
 
 .delete-recipe-btn {
-    background-color: var(--color-danger);
+    background: linear-gradient(135deg, var(--color-danger) 0%, var(--color-danger-dark) 100%);
 }
 
 .delete-recipe-btn:hover {
-    background-color: var(--color-danger-dark);
+    background: linear-gradient(135deg, var(--color-danger-dark) 0%, var(--color-danger) 100%);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.delete-recipe-btn:active {
+    transform: translateY(0);
 }
 
 .delete-recipe-btn:focus {
@@ -958,7 +988,7 @@ header::after {
    Footer
    =================================== */
 footer {
-    background: linear-gradient(135deg, #f8e8d8 0%, #f5ddc8 100%);
+    background: linear-gradient(135deg, #e8ecf0 0%, #dde3e9 100%);
     color: var(--color-text-secondary);
     text-align: center;
     padding: var(--space-2xl) 0;
