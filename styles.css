@@ -209,12 +209,11 @@ header h1 {
     border: 3px solid #FFFACD;
     border-radius: 12px;
 
-    /* Soft pale lemon glow on text */
+    /* Minimal glow on text for sharp, readable font */
     text-shadow:
-        0 0 5px rgba(255, 250, 205, 0.8),
-        0 0 10px rgba(255, 250, 205, 0.6),
-        0 0 20px rgba(255, 250, 205, 0.4),
-        0 0 30px rgba(255, 249, 196, 0.3);
+        0 0 2px rgba(255, 250, 205, 0.5),
+        0 0 5px rgba(255, 250, 205, 0.3),
+        0 0 10px rgba(255, 250, 205, 0.2);
 
     /* Soft glowing rectangular frame - single border with layered glow */
     box-shadow:
@@ -247,14 +246,13 @@ header h1 {
     border-radius: var(--border-radius-sm);
 }
 
-/* Gentle glow animation - soft shimmer effect */
+/* Gentle glow animation - minimal text glow, border shimmer */
 @keyframes gentleGlow {
     0%, 100% {
         text-shadow:
-            0 0 5px rgba(255, 250, 205, 0.8),
-            0 0 10px rgba(255, 250, 205, 0.6),
-            0 0 20px rgba(255, 250, 205, 0.4),
-            0 0 30px rgba(255, 249, 196, 0.3);
+            0 0 2px rgba(255, 250, 205, 0.5),
+            0 0 5px rgba(255, 250, 205, 0.3),
+            0 0 10px rgba(255, 250, 205, 0.2);
         box-shadow:
             inset 0 0 10px rgba(255, 250, 205, 0.3),
             inset 0 0 20px rgba(255, 250, 205, 0.2),
@@ -265,10 +263,9 @@ header h1 {
     }
     50% {
         text-shadow:
-            0 0 6px rgba(255, 250, 205, 0.9),
-            0 0 12px rgba(255, 250, 205, 0.7),
-            0 0 24px rgba(255, 250, 205, 0.5),
-            0 0 36px rgba(255, 249, 196, 0.35);
+            0 0 3px rgba(255, 250, 205, 0.6),
+            0 0 6px rgba(255, 250, 205, 0.4),
+            0 0 12px rgba(255, 250, 205, 0.25);
         box-shadow:
             inset 0 0 12px rgba(255, 250, 205, 0.35),
             inset 0 0 24px rgba(255, 250, 205, 0.25),
@@ -467,12 +464,11 @@ header::before {
         border-radius: 10px;
         border-width: 2px;
 
-        /* Soft text glow for mobile */
+        /* Minimal text glow for mobile - sharp and clear */
         text-shadow:
-            0 0 4px rgba(255, 250, 205, 0.7),
-            0 0 8px rgba(255, 250, 205, 0.5),
-            0 0 16px rgba(255, 250, 205, 0.3),
-            0 0 24px rgba(255, 249, 196, 0.2);
+            0 0 2px rgba(255, 250, 205, 0.4),
+            0 0 4px rgba(255, 250, 205, 0.25),
+            0 0 8px rgba(255, 250, 205, 0.15);
 
         /* Soft border glow for mobile */
         box-shadow:
@@ -484,14 +480,13 @@ header::before {
             0 0 48px rgba(255, 249, 196, 0.15);
     }
 
-    /* Mobile-optimized gentle glow animation */
+    /* Mobile-optimized gentle glow - minimal text blur */
     @keyframes gentleGlow {
         0%, 100% {
             text-shadow:
-                0 0 4px rgba(255, 250, 205, 0.7),
-                0 0 8px rgba(255, 250, 205, 0.5),
-                0 0 16px rgba(255, 250, 205, 0.3),
-                0 0 24px rgba(255, 249, 196, 0.2);
+                0 0 2px rgba(255, 250, 205, 0.4),
+                0 0 4px rgba(255, 250, 205, 0.25),
+                0 0 8px rgba(255, 250, 205, 0.15);
             box-shadow:
                 inset 0 0 8px rgba(255, 250, 205, 0.25),
                 inset 0 0 16px rgba(255, 250, 205, 0.15),
@@ -502,10 +497,9 @@ header::before {
         }
         50% {
             text-shadow:
-                0 0 5px rgba(255, 250, 205, 0.8),
-                0 0 10px rgba(255, 250, 205, 0.6),
-                0 0 20px rgba(255, 250, 205, 0.4),
-                0 0 30px rgba(255, 249, 196, 0.25);
+                0 0 3px rgba(255, 250, 205, 0.5),
+                0 0 5px rgba(255, 250, 205, 0.3),
+                0 0 10px rgba(255, 250, 205, 0.2);
             box-shadow:
                 inset 0 0 10px rgba(255, 250, 205, 0.3),
                 inset 0 0 20px rgba(255, 250, 205, 0.2),
