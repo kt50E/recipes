@@ -466,64 +466,11 @@ function displayRecipeDetail(recipe) {
     } else {
         const noNotes = document.createElement('p');
         noNotes.className = 'no-notes';
-        noNotes.textContent = 'No notes added yet. Click below to add your personal notes!';
+        noNotes.textContent = 'No notes added yet.';
         notesSection.appendChild(noNotes);
     }
 
     detailContainer.appendChild(notesSection);
-
-    // Recipe Actions
-    const actionsDiv = document.createElement('div');
-    actionsDiv.className = 'recipe-actions';
-
-    const githubRepo = getGitHubRepo();
-
-    // Edit Notes Button
-    const editNotesLink = document.createElement('a');
-    editNotesLink.href = `https://github.com/${githubRepo}/actions/workflows/update-notes.yml`;
-    editNotesLink.target = '_blank';
-    editNotesLink.rel = 'noopener noreferrer';
-    editNotesLink.className = 'edit-notes-btn';
-    editNotesLink.textContent = recipe.notes ? 'Edit Notes' : 'Add Notes';
-    editNotesLink.setAttribute('aria-label', recipe.notes ? 'Edit recipe notes' : 'Add recipe notes');
-
-    editNotesLink.addEventListener('click', (e) => {
-        const message = `You'll need to enter:\n\nRecipe ID: ${recipe.id}\n\nThen paste your notes in the next field.`;
-        if (!confirm(message)) {
-            e.preventDefault();
-        }
-    });
-
-    actionsDiv.appendChild(editNotesLink);
-
-    // Delete Recipe Button
-    const deleteLink = document.createElement('a');
-    deleteLink.href = `https://github.com/${githubRepo}/actions/workflows/delete-recipe.yml`;
-    deleteLink.target = '_blank';
-    deleteLink.rel = 'noopener noreferrer';
-    deleteLink.className = 'delete-recipe-btn';
-    deleteLink.textContent = 'Delete Recipe';
-    deleteLink.setAttribute('aria-label', 'Delete this recipe');
-
-    deleteLink.addEventListener('click', (e) => {
-        const message = `Are you sure you want to delete this recipe?\n\nYou'll need to enter the recipe ID: ${recipe.id}`;
-        if (!confirm(message)) {
-            e.preventDefault();
-        }
-    });
-
-    actionsDiv.appendChild(deleteLink);
-
-    detailContainer.appendChild(actionsDiv);
-
-    // Print button (optional enhancement)
-    const printBtn = document.createElement('button');
-    printBtn.textContent = '🖨️ Print Recipe';
-    printBtn.className = 'edit-notes-btn'; // Reuse styling
-    printBtn.style.marginTop = '1rem';
-    printBtn.setAttribute('aria-label', 'Print this recipe');
-    printBtn.addEventListener('click', () => window.print());
-    actionsDiv.appendChild(printBtn);
 }
 
 // Load recipe when page loads

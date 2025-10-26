@@ -173,23 +173,37 @@ function createRecipeCard(recipe) {
     card.className = 'recipe-card';
     card.setAttribute('role', 'listitem');
 
-    // Image
+    // Image (wrapped in link)
     if (recipe.image) {
+        const imgLink = document.createElement('a');
+        imgLink.href = `recipe.html?id=${encodeURIComponent(recipe.id)}`;
+        imgLink.className = 'recipe-card-image-link';
+        imgLink.setAttribute('aria-label', `View recipe: ${recipe.title}`);
+
         const img = document.createElement('img');
         img.src = recipe.image;
         img.alt = recipe.title || 'Recipe image';
         img.loading = 'lazy'; // Native lazy loading
-        card.appendChild(img);
+
+        imgLink.appendChild(img);
+        card.appendChild(imgLink);
     }
 
     // Content container
     const content = document.createElement('div');
     content.className = 'recipe-content';
 
-    // Title
+    // Title (wrapped in link)
+    const titleLink = document.createElement('a');
+    titleLink.href = `recipe.html?id=${encodeURIComponent(recipe.id)}`;
+    titleLink.className = 'recipe-card-title-link';
+    titleLink.setAttribute('aria-label', `View recipe: ${recipe.title}`);
+
     const title = document.createElement('h2');
     title.textContent = recipe.title || 'Untitled Recipe';
-    content.appendChild(title);
+
+    titleLink.appendChild(title);
+    content.appendChild(titleLink);
 
     // Description
     if (recipe.description) {
