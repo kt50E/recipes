@@ -13,10 +13,10 @@
     --color-danger: #c85a54;
     --color-danger-dark: #b04944;
 
-    --color-bg-primary: #ffffff;
-    --color-bg-secondary: #fdfbf7;
-    --color-bg-tertiary: #f9f5ef;
-    --color-bg-notes: #fff9e6;
+    --color-bg-primary: #f8f9fb;
+    --color-bg-secondary: #f0f2f5;
+    --color-bg-tertiary: #e8eaed;
+    --color-bg-notes: #eef2f7;
 
     --color-text-primary: #3d3328;
     --color-text-secondary: #5d4e37;
@@ -137,8 +137,8 @@ body {
     color: var(--color-text-primary);
     background-color: var(--color-bg-secondary);
     background-image:
-        radial-gradient(circle at 10% 20%, rgba(255, 234, 167, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(212, 132, 92, 0.03) 0%, transparent 50%);
+        radial-gradient(circle at 10% 20%, rgba(15, 68, 118, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(180, 200, 220, 0.05) 0%, transparent 50%);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -181,7 +181,7 @@ h1, h2, h3, h4, h5, h6 {
 header {
     background: #0f4476;
     color: #ffffff;
-    padding: var(--space-xl) 0 var(--space-md) 0;
+    padding: 22px 0 var(--space-md) 0;
     text-align: center;
     margin-bottom: var(--space-xl);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -612,30 +612,6 @@ header::after {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-}
-
-.recipe-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    margin-top: var(--space-md);
-}
-
-.tag {
-    background-color: rgba(212, 132, 92, 0.08);
-    padding: 0.25rem var(--space-md);
-    border-radius: var(--border-radius-pill);
-    font-size: var(--font-size-xs);
-    color: var(--color-secondary);
-    font-weight: var(--font-weight-medium);
-    transition: all var(--transition-fast);
-    border: 1px solid rgba(212, 132, 92, 0.15);
-}
-
-.tag:hover {
-    background-color: rgba(212, 132, 92, 0.15);
-    color: var(--color-primary-dark);
-    border-color: rgba(212, 132, 92, 0.3);
 }
 
 .view-recipe-btn {

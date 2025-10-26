@@ -382,21 +382,6 @@ function displayRecipeDetail(recipe) {
         detailContainer.appendChild(metaDiv);
     }
 
-    // Tags
-    if (recipe.tags && Array.isArray(recipe.tags) && recipe.tags.length > 0) {
-        const tagsDiv = document.createElement('div');
-        tagsDiv.className = 'recipe-tags';
-
-        recipe.tags.forEach(tag => {
-            const tagSpan = document.createElement('span');
-            tagSpan.className = 'tag';
-            tagSpan.textContent = tag;
-            tagsDiv.appendChild(tagSpan);
-        });
-
-        detailContainer.appendChild(tagsDiv);
-    }
-
     // Ingredients Section
     if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
         const ingredientsSection = document.createElement('div');

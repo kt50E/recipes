@@ -7,7 +7,6 @@
 let allRecipes = [];
 let filteredRecipes = [];
 let currentSearch = '';
-let currentTagFilter = '';
 let currentSort = 'newest';
 
 // HTML escaping for XSS protection
@@ -60,32 +59,9 @@ function displayError(message) {
     updateRecipeCount(0, 0);
 }
 
-// Initialize filter dropdowns with available tags
+// Initialize filter dropdowns
 function initializeFilters() {
-    const tagFilter = document.getElementById('tag-filter');
-    if (!tagFilter) return;
-
-    // Collect all unique tags
-    const allTags = new Set();
-    allRecipes.forEach(recipe => {
-        if (recipe.tags && Array.isArray(recipe.tags)) {
-            recipe.tags.forEach(tag => allTags.add(tag));
-        }
-    });
-
-    // Sort tags alphabetically
-    const sortedTags = Array.from(allTags).sort();
-
-    // Clear existing options (except "All Tags")
-    tagFilter.innerHTML = '<option value="">All Tags</option>';
-
-    // Add tag options
-    sortedTags.forEach(tag => {
-        const option = document.createElement('option');
-        option.value = tag;
-        option.textContent = tag;
-        tagFilter.appendChild(option);
-    });
+    // No filters to initialize anymore
 }
 
 // Search recipes
@@ -111,23 +87,7 @@ function searchRecipes(recipes, query) {
             }
         }
 
-        // Search in tags
-        if (recipe.tags && Array.isArray(recipe.tags)) {
-            if (recipe.tags.some(tag => tag.toLowerCase().includes(lowerQuery))) {
-                return true;
-            }
-        }
-
         return false;
-    });
-}
-
-// Filter recipes by tag
-function filterByTag(recipes, tag) {
-    if (!tag) return recipes;
-
-    return recipes.filter(recipe => {
-        return recipe.tags && Array.isArray(recipe.tags) && recipe.tags.includes(tag);
     });
 }
 
@@ -186,9 +146,6 @@ function applyFiltersAndSort() {
 
     // Apply search
     recipes = searchRecipes(recipes, currentSearch);
-
-    // Apply tag filter
-    recipes = filterByTag(recipes, currentTagFilter);
 
     // Apply sorting
     recipes = sortRecipes(recipes, currentSort);
@@ -268,42 +225,6 @@ function createRecipeCard(recipe) {
         content.appendChild(meta);
     }
 
-    // Tags
-    if (recipe.tags && Array.isArray(recipe.tags) && recipe.tags.length > 0) {
-        const tagsContainer = document.createElement('div');
-        tagsContainer.className = 'recipe-tags';
-
-        recipe.tags.forEach(tag => {
-            const tagSpan = document.createElement('span');
-            tagSpan.className = 'tag';
-            tagSpan.textContent = tag;
-            tagSpan.setAttribute('role', 'button');
-            tagSpan.setAttribute('tabindex', '0');
-            tagSpan.setAttribute('aria-label', `Filter by ${tag}`);
-
-            // Make tags clickable to filter
-            tagSpan.addEventListener('click', () => {
-                currentTagFilter = tag;
-                document.getElementById('tag-filter').value = tag;
-                applyFiltersAndSort();
-            });
-
-            // Keyboard support
-            tagSpan.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    currentTagFilter = tag;
-                    document.getElementById('tag-filter').value = tag;
-                    applyFiltersAndSort();
-                }
-            });
-
-            tagsContainer.appendChild(tagSpan);
-        });
-
-        content.appendChild(tagsContainer);
-    }
-
     // View recipe button
     const link = document.createElement('a');
     link.href = `recipe.html?id=${encodeURIComponent(recipe.id)}`;
@@ -332,7 +253,7 @@ function displayRecipes(recipes) {
         heading.textContent = 'No Recipes Found';
 
         const message = document.createElement('p');
-        if (currentSearch || currentTagFilter) {
+        if (currentSearch) {
             message.textContent = 'Try adjusting your search or filters.';
         } else {
             message.textContent = 'No recipes found yet. Add your first recipe!';
@@ -377,15 +298,6 @@ function setupEventListeners() {
         }, 300);
 
         searchInput.addEventListener('input', debouncedSearch);
-    }
-
-    // Tag filter
-    const tagFilter = document.getElementById('tag-filter');
-    if (tagFilter) {
-        tagFilter.addEventListener('change', (e) => {
-            currentTagFilter = e.target.value;
-            applyFiltersAndSort();
-        });
     }
 
     // Sort select
