@@ -425,7 +425,38 @@ function displayRecipeDetail(recipe) {
             .filter(instruction => instruction && instruction.trim())
             .forEach(instruction => {
                 const li = document.createElement('li');
-                li.textContent = instruction;
+
+                // Check if instruction has sub-bullets (contains newlines with bullets)
+                if (instruction.includes('\n')) {
+                    const lines = instruction.split('\n');
+                    const mainText = lines[0];
+                    const subBullets = lines.slice(1).filter(line => line.trim());
+
+                    // Add main instruction text
+                    const mainTextNode = document.createTextNode(mainText);
+                    li.appendChild(mainTextNode);
+
+                    // If there are sub-bullets, create a nested list
+                    if (subBullets.length > 0) {
+                        const subList = document.createElement('ul');
+                        subList.style.marginTop = '0.5rem';
+                        subList.style.marginBottom = '0';
+
+                        subBullets.forEach(subBullet => {
+                            const subLi = document.createElement('li');
+                            // Remove leading bullet markers and whitespace
+                            const cleanedText = subBullet.replace(/^\s*•\s*/, '').trim();
+                            subLi.textContent = cleanedText;
+                            subList.appendChild(subLi);
+                        });
+
+                        li.appendChild(subList);
+                    }
+                } else {
+                    // Simple instruction without sub-bullets
+                    li.textContent = instruction;
+                }
+
                 instructionsList.appendChild(li);
             });
 
