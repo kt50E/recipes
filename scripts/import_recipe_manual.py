@@ -44,27 +44,32 @@ def parse_recipe_text(text):
     normalized = re.sub(r'-{3,}', '\n\n', normalized)  # triple dash (---)
     normalized = re.sub(r'={3,}', '\n\n', normalized)  # triple equals (===)
 
-    # Split bullet points into separate lines (•, *, -, but not mid-sentence hyphens)
-    # Only split on bullets that appear at start of line or after whitespace
-    normalized = re.sub(r'\n•\n', '\n', normalized)  # Remove standalone bullets on their own line
-    normalized = re.sub(r'(\s|^)•\s*', r'\n', normalized)
-    normalized = re.sub(r'(\s|^)\*\s+', r'\n* ', normalized)
+    # DON'T aggressively split bullets - preserve them for intelligent grouping
+    # Just ensure numbered lists are on their own lines
+    normalized = re.sub(r'([^\n])(\d+)\.\s+', r'\1\n\2. ', normalized)
 
-    # Split numbered lists (1., 2., etc.) into separate lines
-    normalized = re.sub(r'\s+(\d+)\.\s+', r'\n\1. ', normalized)
-
-    lines = [line.strip() for line in normalized.split('\n') if line.strip()]
+    # Process lines while preserving leading whitespace for indentation detection
+    raw_lines = normalized.split('\n')
+    lines = []
+    for raw_line in raw_lines:
+        stripped = raw_line.strip()
+        if stripped:
+            # Store both stripped content and whether it was indented
+            indent_level = len(raw_line) - len(raw_line.lstrip())
+            lines.append((stripped, indent_level))
 
     ingredients = []
     instructions = []
     current_section = None
+    current_instruction = None  # Track current instruction being built
 
     # Keywords that indicate section headers
     ingredient_keywords = ['ingredient', 'ingredients', 'what you need', 'you will need']
     instruction_keywords = ['instruction', 'instructions', 'direction', 'directions',
                            'steps', 'method', 'preparation', 'how to make']
 
-    for line in lines:
+    for line_data in lines:
+        line, indent = line_data
         lower_line = line.lower()
 
         # Check for section headers
@@ -88,9 +93,17 @@ def parse_recipe_text(text):
         )
 
         if is_ingredient_header:
+            # Save any pending instruction before switching sections
+            if current_instruction:
+                instructions.append(current_instruction)
+                current_instruction = None
             current_section = 'ingredients'
             continue
         elif is_instruction_header:
+            # Save any pending instruction before switching sections
+            if current_instruction:
+                instructions.append(current_instruction)
+                current_instruction = None
             current_section = 'instructions'
             continue
 
@@ -105,12 +118,38 @@ def parse_recipe_text(text):
             if cleaned:
                 ingredients.append(cleaned)
         elif current_section == 'instructions':
-            # Remove numbered prefixes (1., 2., etc.) since frontend auto-numbers
-            # Also remove bullet points
-            cleaned = re.sub(r'^\d+\.\s*', '', line)  # Remove "1. ", "2. ", etc.
-            cleaned = re.sub(r'^[•\-\*]\s*', '', cleaned)  # Remove bullets
-            if cleaned:
-                instructions.append(cleaned)
+            # Check if this is a new numbered step
+            if re.match(r'^\d+\.', line):
+                # Save previous instruction if exists
+                if current_instruction:
+                    instructions.append(current_instruction)
+                # Start new instruction, removing the number prefix
+                current_instruction = re.sub(r'^\d+\.\s*', '', line)
+            elif indent > 0 and current_instruction:
+                # Indented line - likely a sub-bullet or continuation
+                # Check if it's a bullet point
+                is_bullet = re.match(r'^[•\-\*]\s+', line)
+                if is_bullet:
+                    # It's a sub-bullet - preserve it with formatting
+                    cleaned = re.sub(r'^[•\-\*]\s+', '', line)
+                    current_instruction += f"\n  • {cleaned}"
+                else:
+                    # Indented continuation without bullet
+                    current_instruction += f"\n  {line}"
+            else:
+                # Non-indented, non-numbered line
+                # Check if it's a bullet
+                is_bullet = re.match(r'^[•\-\*]\s+', line)
+                if is_bullet and current_instruction:
+                    # Bullet following an instruction - treat as sub-bullet
+                    cleaned = re.sub(r'^[•\-\*]\s+', '', line)
+                    current_instruction += f"\n  • {cleaned}"
+                else:
+                    # Save previous and start new instruction
+                    if current_instruction:
+                        instructions.append(current_instruction)
+                    # Remove bullet if present
+                    current_instruction = re.sub(r'^[•\-\*]\s+', '', line)
         else:
             # Try to guess based on patterns
             # Ingredients are usually:
@@ -128,18 +167,41 @@ def parse_recipe_text(text):
             cleaned_line = re.sub(r'^[•\-\*]\s*', '', line)
 
             if starts_with_step_number:
+                # Save previous instruction if exists
+                if current_instruction:
+                    instructions.append(current_instruction)
                 # Numbered items are instructions - strip the number prefix
-                cleaned_line = re.sub(r'^\d+\.\s*', '', cleaned_line)
-                if cleaned_line:
-                    instructions.append(cleaned_line)
+                current_instruction = re.sub(r'^\d+\.\s*', '', cleaned_line)
             elif (has_measurement or starts_with_number_quantity) and is_short:
                 ingredients.append(cleaned_line)
+            elif indent > 0 and current_instruction:
+                # Indented line with existing instruction - treat as sub-bullet
+                is_bullet = re.match(r'^[•\-\*]\s+', line)
+                if is_bullet:
+                    cleaned = re.sub(r'^[•\-\*]\s+', '', line)
+                    current_instruction += f"\n  • {cleaned}"
+                else:
+                    current_instruction += f"\n  {line}"
             else:
-                instructions.append(cleaned_line)
+                # Check if it's a bullet that might be a sub-step
+                is_bullet = re.match(r'^[•\-\*]\s+', line)
+                if is_bullet and current_instruction:
+                    # Add as sub-bullet to current instruction
+                    cleaned = re.sub(r'^[•\-\*]\s+', '', line)
+                    current_instruction += f"\n  • {cleaned}"
+                else:
+                    # Save previous instruction if exists
+                    if current_instruction:
+                        instructions.append(current_instruction)
+                    current_instruction = cleaned_line
+
+    # Save any final pending instruction
+    if current_instruction:
+        instructions.append(current_instruction)
 
     # If we couldn't parse anything, put everything in instructions
     if not ingredients and not instructions:
-        instructions = lines
+        instructions = [line for line, _ in lines]
 
     return ingredients, instructions
 
