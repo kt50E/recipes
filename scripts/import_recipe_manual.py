@@ -31,8 +31,12 @@ def parse_recipe_text(text):
     - Line length patterns (ingredients are usually shorter)
     - Handles tabs, bullets, and numbered lists as separators
     """
-    # Normalize the text: replace tabs with newlines, handle various separators
-    normalized = text.replace('\t', '\n')
+    # Normalize the text: handle escaped newlines from command-line arguments
+    # GitHub Actions may pass \n as literal '\n' strings
+    normalized = text.replace('\\n', '\n').replace('\\r\\n', '\n').replace('\\r', '\n')
+
+    # Replace tabs with newlines
+    normalized = normalized.replace('\t', '\n')
 
     # Replace common section separators (⸻, ---, ===) with double newlines
     normalized = re.sub(r'\u2e3b+', '\n\n', normalized)  # horizontal bar separator (⸻)
@@ -68,18 +72,18 @@ def parse_recipe_text(text):
         is_numbered = re.match(r'^\d+\.', line)
         is_ingredient_header = (
             not is_numbered and
-            len(line) < 50 and
-            any(keyword == lower_line.strip() or
+            len(line) < 100 and  # Increased from 50 to allow for more formatting
+            any(keyword in lower_line.strip() or
                 lower_line.strip().startswith(keyword + ':') or
-                lower_line.strip().startswith(keyword + ' ') and len(lower_line.strip().split()) <= 3
+                lower_line.strip() == keyword
                 for keyword in ingredient_keywords)
         )
         is_instruction_header = (
             not is_numbered and
-            len(line) < 50 and
-            any(keyword == lower_line.strip() or
+            len(line) < 100 and  # Increased from 50 to allow for more formatting
+            any(keyword in lower_line.strip() or
                 lower_line.strip().startswith(keyword + ':') or
-                lower_line.strip().startswith(keyword + ' ') and len(lower_line.strip().split()) <= 3
+                lower_line.strip() == keyword
                 for keyword in instruction_keywords)
         )
 
@@ -190,6 +194,11 @@ def add_recipe_manual(args, recipes_file):
 
     # Load existing recipes
     recipes = load_recipes(recipes_file)
+
+    # Debug: Show first 200 chars of input text to help diagnose parsing issues
+    text_preview = args.text[:200].replace('\n', '\\n')
+    print(f"\n📝 Input text preview (first 200 chars):")
+    print(f"   {text_preview}...")
 
     # Create new recipe
     recipe_data = create_recipe(

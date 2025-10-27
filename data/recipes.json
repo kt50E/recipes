@@ -168,8 +168,8 @@
     "id": "air-fryer-chicken-wings",
     "title": "Air Fryer Chicken Wings",
     "description": "Smoke and oil splashing during air frying chicken wings is not pleasant so this recipe came from my own trial and error.",
-    "prepTime": "15",
-    "cookTime": "45",
+    "prepTime": "15 min",
+    "cookTime": "45 min",
     "servings": "2",
     "image": "",
     "tags": [],
@@ -178,7 +178,9 @@
       "Neutral cooking oil",
       "½ tsp salt",
       "¼ tsp garlic powder",
-      "¼ tsp ground pepper  Instructions",
+      "¼ tsp ground pepper"
+    ],
+    "instructions": [
       "1. Preheat the toaster oven using the Air Fryer function to 380°F.",
       "2. Cover the baking tray with foil to collect dripping chicken fat. This helps reduce smoking in the toaster oven.",
       "3. Pat dry the chicken wings. Allowing the chicken to come closer to room temperature helps them cook evenly and prevents overcooking.",
@@ -188,7 +190,6 @@
       "7. Bake for 25 minutes, flipping the wings halfway through.",
       "8. Increase the temperature to 400°F and bake for an additional 5 minutes."
     ],
-    "instructions": [],
     "notes": "",
     "sourceUrl": "",
     "dateAdded": "2025-10-27"
