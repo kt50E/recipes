@@ -345,7 +345,7 @@ header::before {
     background-color: #FFFEF7;
     border-left: 5px solid #FFFACD;
     border-radius: 8px;
-    margin: 0 auto var(--space-xl) auto;
+    margin: 0 var(--container-padding) var(--space-xl) var(--container-padding);
     max-width: var(--container-max-width);
     position: relative;
     transition: opacity var(--transition-slow);
@@ -376,7 +376,7 @@ header::before {
     color: var(--color-header);
     font-weight: var(--font-weight-bold);
     margin: 0 0 var(--space-md) 0;
-    font-family: 'Chewy', cursive;
+    font-family: 'Fredoka One', cursive;
 }
 
 .banner-content p {
