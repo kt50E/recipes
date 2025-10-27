@@ -345,8 +345,9 @@ header::before {
     background-color: #FFFEF7;
     border-left: 5px solid #FFFACD;
     border-radius: 8px;
-    margin: 0 var(--container-padding) var(--space-xl) var(--container-padding);
+    margin: 0 auto var(--space-xl) auto;
     max-width: var(--container-max-width);
+    padding: 0 var(--container-padding);
     position: relative;
     transition: opacity var(--transition-slow);
 
