@@ -80,8 +80,8 @@
     --header-height: auto;
 }
 
-/* Dark Mode Colors - Disabled */
-/* @media (prefers-color-scheme: dark) {
+/* Dark Mode Colors */
+@media (prefers-color-scheme: dark) {
     :root {
         --color-bg-primary: #1a1d23;
         --color-bg-secondary: #0f1114;
@@ -101,7 +101,24 @@
         --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5);
         --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
-} */
+
+    /* Keep Welcome Banner text dark for readability on light background */
+    .banner-content p {
+        color: #2c3e50;
+    }
+
+    .banner-signature {
+        color: #4a5f7f;
+    }
+
+    .banner-close {
+        color: #7a8b9c;
+    }
+
+    .banner-close:hover {
+        color: #2c3e50;
+    }
+}
 
 /* ===================================
    Base Styles & Reset
