@@ -193,5 +193,31 @@
     "notes": "",
     "sourceUrl": "",
     "dateAdded": "2025-10-27"
+  },
+  {
+    "id": "simple-milk-foam-for-homemade-latte-art",
+    "title": "Simple Milk Foam for Homemade Latte Art",
+    "description": "I took a latte art class, so I hope these instructions (which work for me) work for you too! #homebarista #latteart",
+    "prepTime": "5 min",
+    "cookTime": "5 min",
+    "servings": "1",
+    "image": "https://i.imgur.com/wYSUas1.jpeg",
+    "tags": [],
+    "ingredients": [],
+    "instructions": [
+      "Ingredients • Whole milk (cold) • Milk pitcher • Espresso with good crema • Milk frother (recipe designed for a Breville coffee machine)  Instructions",
+      "Submerge the steam-wand tip slightly and tilt the pitcher.",
+      "Aerate the cold milk until it reaches 90–100°F.",
+      "If a thermometer is not available, stop aerating when:",
+      "the pitcher feels warm to the touch, or",
+      "the desired foam height is reached.",
+      "Slowly move the pitcher up to submerge the wand tip slightly (no more aerating just texturing).",
+      "Stop steaming once the milk reaches 135–140°F or feels too hot to touch.",
+      "If bubbles remain, tap the pitcher gently to break them, then swirl to incorporate the foam evenly.",
+      "Pour immediately."
+    ],
+    "notes": "",
+    "sourceUrl": "",
+    "dateAdded": "2025-10-27"
   }
 ]
