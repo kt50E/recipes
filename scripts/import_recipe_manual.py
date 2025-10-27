@@ -342,7 +342,12 @@ def main():
     """Main entry point for the script."""
     parser = argparse.ArgumentParser(description='Import a recipe from manual text input')
     parser.add_argument('--title', required=True, help='Recipe title')
-    parser.add_argument('--text', required=True, help='Recipe text (ingredients and instructions)')
+
+    # Accept either --text or --text-file (--text-file takes precedence)
+    text_group = parser.add_mutually_exclusive_group(required=True)
+    text_group.add_argument('--text', help='Recipe text (ingredients and instructions)')
+    text_group.add_argument('--text-file', help='Path to file containing recipe text')
+
     parser.add_argument('--prep-time', default='', help='Prep time (e.g., "10 min")')
     parser.add_argument('--cook-time', default='', help='Cook time (e.g., "30 min")')
     parser.add_argument('--servings', default='', help='Number of servings')
@@ -351,6 +356,14 @@ def main():
     parser.add_argument('--source', default='', help='Source URL')
 
     args = parser.parse_args()
+
+    # Read text from file if --text-file was provided
+    if args.text_file:
+        with open(args.text_file, 'r', encoding='utf-8') as f:
+            args.text = f.read()
+    elif not args.text:
+        print("❌ Error: Either --text or --text-file must be provided")
+        sys.exit(1)
 
     # Determine the path to recipes.json
     script_dir = os.path.dirname(os.path.abspath(__file__))

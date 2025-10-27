@@ -64,10 +64,15 @@ jobs:
 
       - name: Import recipe
         run: |
+          # Write recipe text to temp file to preserve newlines
+          cat > /tmp/recipe_text.txt << 'RECIPE_TEXT_EOF'
+          ${{ github.event.inputs.recipe_text }}
+          RECIPE_TEXT_EOF
+
           cd scripts
           python import_recipe_manual.py \
             --title "${{ github.event.inputs.title }}" \
-            --text "${{ github.event.inputs.recipe_text }}" \
+            --text-file /tmp/recipe_text.txt \
             --prep-time "${{ github.event.inputs.prep_time }}" \
             --cook-time "${{ github.event.inputs.cook_time }}" \
             --servings "${{ github.event.inputs.servings }}" \
