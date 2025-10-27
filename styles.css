@@ -103,20 +103,24 @@
     }
 
     /* Keep Welcome Banner text dark for readability on light background */
+    .banner-title {
+        color: #0f4476 !important;
+    }
+
     .banner-content p {
-        color: #2c3e50;
+        color: #1a1d23 !important;
     }
 
     .banner-signature {
-        color: #4a5f7f;
+        color: #2c3e50 !important;
     }
 
     .banner-close {
-        color: #7a8b9c;
+        color: #4a5f7f !important;
     }
 
     .banner-close:hover {
-        color: #2c3e50;
+        color: #1a1d23 !important;
     }
 }
 
