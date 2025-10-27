@@ -105,15 +105,12 @@ def parse_recipe_text(text):
             if cleaned:
                 ingredients.append(cleaned)
         elif current_section == 'instructions':
-            # Keep numbered prefixes but clean up bullet points
-            if re.match(r'^\d+\.', line):
-                # Keep numbered instructions as-is
-                instructions.append(line)
-            else:
-                # Remove bullet points from unnumbered instructions
-                cleaned = re.sub(r'^[•\-\*]\s*', '', line)
-                if cleaned:
-                    instructions.append(cleaned)
+            # Remove numbered prefixes (1., 2., etc.) since frontend auto-numbers
+            # Also remove bullet points
+            cleaned = re.sub(r'^\d+\.\s*', '', line)  # Remove "1. ", "2. ", etc.
+            cleaned = re.sub(r'^[•\-\*]\s*', '', cleaned)  # Remove bullets
+            if cleaned:
+                instructions.append(cleaned)
         else:
             # Try to guess based on patterns
             # Ingredients are usually:
@@ -131,8 +128,10 @@ def parse_recipe_text(text):
             cleaned_line = re.sub(r'^[•\-\*]\s*', '', line)
 
             if starts_with_step_number:
-                # Numbered items are instructions
-                instructions.append(line)
+                # Numbered items are instructions - strip the number prefix
+                cleaned_line = re.sub(r'^\d+\.\s*', '', cleaned_line)
+                if cleaned_line:
+                    instructions.append(cleaned_line)
             elif (has_measurement or starts_with_number_quantity) and is_short:
                 ingredients.append(cleaned_line)
             else:
