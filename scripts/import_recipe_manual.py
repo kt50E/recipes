@@ -39,8 +39,9 @@ def parse_recipe_text(text):
     normalized = normalized.replace('\t', '\n')
 
     # Replace common section separators (⸻, ---, ===) with double newlines
-    normalized = re.sub(r'\u2e3b+', '\n\n', normalized)  # horizontal bar separator (⸻)
-    normalized = re.sub(r'\u2014+', '\n\n', normalized)  # em-dash (—)
+    # But NOT single em-dashes which are often used in sentences
+    normalized = re.sub(r'\u2e3b{2,}', '\n\n', normalized)  # horizontal bar separator (⸻⸻+)
+    normalized = re.sub(r'\u2014{2,}', '\n\n', normalized)  # multiple em-dashes (——+)
     normalized = re.sub(r'-{3,}', '\n\n', normalized)  # triple dash (---)
     normalized = re.sub(r'={3,}', '\n\n', normalized)  # triple equals (===)
 
@@ -256,10 +257,16 @@ def add_recipe_manual(args, recipes_file):
     # Load existing recipes
     recipes = load_recipes(recipes_file)
 
-    # Debug: Show first 200 chars of input text to help diagnose parsing issues
-    text_preview = args.text[:200].replace('\n', '\\n')
-    print(f"\n📝 Input text preview (first 200 chars):")
+    # Debug: Show first 300 chars of input text to help diagnose parsing issues
+    text_preview = args.text[:300].replace('\n', '\\n')
+    print(f"\n📝 Input text preview (first 300 chars):")
     print(f"   {text_preview}...")
+
+    # Show first few lines to verify section headers are detected
+    first_lines = args.text.split('\n')[:5]
+    print(f"\n📋 First 5 lines (for section header detection):")
+    for i, line in enumerate(first_lines, 1):
+        print(f"   Line {i}: '{line}'")
 
     # Create new recipe
     recipe_data = create_recipe(
